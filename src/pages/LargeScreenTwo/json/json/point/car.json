@@ -1,0 +1,41 @@
+{
+  "type": "FeatureCollection",
+  "features": [
+    {
+      "type": "Feature",
+      "properties": {
+        "lat": 40.10918869156572,
+        "lng": 116.6371005150163,
+        "device_id": "1001"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.6371005150163, 40.10918869156572]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "lat": 40.11165455598601,
+        "lng": 116.63280609368019,
+        "device_id": "1001"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.63280609368019, 40.11165455598601]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": {
+        "lat": 40.11680103503201,
+        "lng": 116.63361792937428,
+        "device_id": "1001"
+      },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [116.63361792937428, 40.11680103503201]
+      }
+    }
+  ]
+}

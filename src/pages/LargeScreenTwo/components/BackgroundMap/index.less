@@ -1,0 +1,29 @@
+@import '~antd/lib/style/themes/default.less';
+
+.container {
+  position: absolute;
+  width: 1920px;
+  height: 1080px;
+  pointer-events: auto;
+  z-index: 1;
+}
+
+.modalStyle {
+  overflow: hidden;
+}
+
+.leftSider {
+  border: 2px solid #f0f2f5;
+
+  :global {
+    .ant-card-body {
+      display: flex;
+
+      .ant-tree {
+        width: 180px;
+        margin-right: 20px;
+        padding-left: 0;
+      }
+    }
+  }
+}

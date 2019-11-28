@@ -1,0 +1,202 @@
+html,
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  color: #fff;
+  font-size: 10px;
+}
+
+.contentTitle {
+  height: 32px;
+  padding-left: 15px;
+  color: #e1f3ff;
+  font-size: 20px;
+  line-height: 32px;
+  letter-spacing: 2px;
+  background: -webkit-linear-gradient(left top, #265d7b, transparent);
+}
+.proNums {
+  position: absolute;
+  width: 700px;
+  height: 80px;
+  display: flex;
+  margin-top: 108px;
+  margin-left: 610px;
+  .nums {
+    width: 188px;
+    height: 80px;
+    background: url(./images/nums2.png) no-repeat;
+    background-size: 188px 80px;
+    text-align: center;
+    color: #0cf8fe;
+  }
+  .nums2 {
+    width: 188px;
+    height: 80px;
+    margin-left: 68px;
+    background: url(./images/nums2.png) no-repeat;
+    background-size: 188px 80px;
+    text-align: center;
+    color: #0cf8fe;
+  }
+}
+.num {
+  margin-top: 2px;
+  width: 200px;
+  font-size: 36px;
+}
+.text {
+  margin-top: -10px;
+  font-size: 16px;
+}
+.alarm {
+  position: absolute;
+  width: 677px;
+  height: 40px;
+  background: url(./images/alarmBg.png) no-repeat;
+  background-size: 677px 40px;
+  margin-top: 208px;
+  margin-left: 620px;
+  display: flex;
+  .info {
+    margin: 7px 10px;
+    font-size: 16px;
+  }
+}
+.alarmLevel {
+  width: 405px;
+  height: 270px;
+  margin-left: 34px;
+  background: url(./images/alarmLevel.png) no-repeat;
+  background-size: 410px 270px;
+}
+.alarmLevel2 {
+  margin-top: 14px;
+  width: 405px;
+  height: 234px;
+  margin-left: 34px;
+  background: url(./images/alarmLevel.png) no-repeat;
+  background-size: 410px 234px;
+}
+
+.alarmLevel3 {
+  width: 405px;
+  height: 270px;
+  background: url(./images/alarmLevel.png) no-repeat;
+  background-size: 410px 270px;
+}
+
+.alarmLevel4 {
+  margin-top: 14px;
+  width: 405px;
+  height: 234px;
+  background: url(./images/alarmLevel.png) no-repeat;
+  background-size: 410px 234px;
+}
+
+.proType {
+  margin-top: 14px;
+  margin-right: 30px;
+  width: 365px;
+  height: 180px;
+  background-color: rgba(14, 19, 138, 0.2);
+}
+
+.proDistribution {
+  margin-top: 14px;
+  margin-left: 34px;
+  width: 1450px;
+  height: 100px;
+  // background-color: rgba(14,109,233,0.2);
+}
+
+.modileTitle {
+  display: flex;
+  height: 32px;
+  padding-left: 15px;
+  color: #81cbf4;
+  font-size: 1.8rem;
+  line-height: 32px;
+  letter-spacing: 2px;
+  .timeIcon {
+    margin-left: 120px;
+  }
+  .timeIcon2 {
+    margin-left: 4px;
+  }
+  span {
+    margin-left: 6px;
+  }
+}
+
+.container {
+  width: 1920px;
+  height: 1080px;
+  transform: scale(1, 1);
+  transform-origin: top left;
+  position: relative;
+  .backGrounds {
+    position: absolute;
+    pointer-events: none;
+    width: 1920px;
+    height: 1080px;
+    z-index: 2;
+    background: url(./images/bg2.png) no-repeat;
+  }
+  .content1 {
+    position: absolute;
+    display: flex;
+    z-index: 100;
+    width: 400px;
+    flex: 1;
+    flex-direction: column;
+  }
+  .content2 {
+    position: absolute;
+    display: flex;
+    z-index: 100;
+    width: 400px;
+    margin-top: 98px;
+    margin-left: 1520px;
+    flex: 1;
+    flex-direction: column;
+  }
+}
+// .content {
+//   display: flex;
+//   position: fixed;
+//   pointer-events: auto;
+//   z-index: 100;
+//   width: 1920px;
+//   height: 1080px;
+//   flex: 1;
+//   flex-direction: column;
+
+//   cursor: pointer;
+//   .mainContent {
+//     display: flex;
+//     z-index: 99999;
+//     flex: 1;
+
+//     & > div {
+//       z-index: 99999;
+//     }
+
+//     .contentLeft{
+//       margin-left: 34px;
+//       z-index: 99999;
+//       display: flex;
+//       flex-direction: column;
+//       width: 400px;
+//     }
+
+//     .contentRight {
+//       margin-left:1090px;
+//       z-index: 99999;
+//       display: flex;
+//       flex-direction: column;
+//       width: 400px;
+//     }
+//   }
+// }
