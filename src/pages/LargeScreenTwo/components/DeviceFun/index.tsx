@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
 // @ts-ignore
 import Hightcharts from 'highcharts';
 // @ts-ignore
@@ -8,12 +9,27 @@ import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/chart/pie';
 
-class DeviceFunChart extends Component {
+interface Props extends FormComponentProps{
+  monData: [];
+}
+
+class DeviceFunChart extends Component<Props> {
   componentDidMount(): void {
-    this.initPieChart2();
   }
-  initPieChart2 = () => {
+
+  componentWillReceiveProps(nextProps:  any) {
+    const { monData } = nextProps;
+    if(monData && monData.length>0){
+      this.initPieChart2(monData);
+    }
+  }
+
+  initPieChart2 = (monData:any) => {
     const myChartL = echarts.init(document.getElementById('pie2'));
+    let data1 =[];
+    if(monData.length>0){
+      data1= monData.map((item:any) => ({ value: item.value, name: item.name }))
+    }
     myChartL.setOption({
       tooltip: {
         trigger: 'item',
@@ -51,16 +67,7 @@ class DeviceFunChart extends Component {
               },
             },
           },
-          data: [
-            { value: 10, name: '人脸比对' },
-            { value: 5, name: '热力图统计' },
-            { value: 15, name: '夜间抓拍' },
-            { value: 25, name: '场景变更侦测' },
-            { value: 20, name: '道路监控' },
-            { value: 35, name: '遮挡告警' },
-            { value: 30, name: '区域入侵检测' },
-            { value: 40, name: '越界侦测' },
-          ],
+          data: data1,
         },
       ],
     });

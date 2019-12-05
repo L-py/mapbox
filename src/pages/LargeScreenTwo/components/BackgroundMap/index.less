@@ -7,11 +7,21 @@
   pointer-events: auto;
   z-index: 1;
 }
-
 .modalStyle {
   overflow: hidden;
 }
-
+.mapContainer{
+  width: 1920px;
+  height: 1080px;
+  transform: scale(1);
+  transform-origin: top left;
+}
+:global {
+  .mapboxgl-popup{
+    max-width: 400px;
+    font: 12px/20px 'Helvetica Neue', Arial, Helvetica, sans-serif;
+  }
+}
 .leftSider {
   border: 2px solid #f0f2f5;
 

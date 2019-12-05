@@ -90,7 +90,10 @@ export default {
     {
       path: '/',
       component: '../layouts/BlankLayout',
-      routes: [{ name: 'large2', path: '/large2', component: './LargeScreenTwo/Index' }],
+      routes: [
+        { name: 'large2', path: '/large2', component: './LargeScreenTwo/Index' },
+        { name: 'aiVideo', path: '/aiVideo', component: './AiVideo/Index' }
+      ],
     },
     {
       path: '/',
@@ -181,11 +184,11 @@ export default {
     basePath: '/',
   },
   // chainWebpack: webpackPlugin,
-  // proxy: {
-  //   '/server/api/': {
-  //     target: 'https://preview.pro.ant.design/',
-  //     changeOrigin: true,
-  //     pathRewrite: { '^/server': '' },
-  //   },
-  // },
+  proxy: {
+    '/server/api/': {
+      target: 'http://120.79.68.66:8070/',
+      changeOrigin: true,
+      pathRewrite: { '^/server': '' },
+    },
+  },
 } as IConfig;

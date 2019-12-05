@@ -1,38 +1,37 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
 // @ts-ignore
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
 
-class ProjectDivisionChart extends Component {
+interface Props extends FormComponentProps{
+  proSumData: [];
+}
+
+class ProjectDivisionChart extends Component<Props> {
   componentDidMount(): void {
-    this.initLineChart();
   }
 
-  initLineChart = () => {
+  componentWillReceiveProps(nextProps:  any) {
+    const { proSumData } = nextProps;
+    if(proSumData && proSumData.length>0){
+      this.initLineChart(proSumData);
+    }
+  }
+
+  initLineChart = (proSumData:any) => {
     const myChartL = echarts.init(document.getElementById('line3'));
+    let xValue =[], num=[];
+    if(proSumData.length>0){
+      xValue= proSumData.map((item:any,index:number) => (item.name));
+      num= proSumData.map((item:any,index:number) => (item.value));
+    }
     myChartL.setOption({
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: [
-          '1',
-          '3',
-          '5',
-          '7',
-          '9',
-          '11',
-          '13',
-          '15',
-          '17',
-          '19',
-          '21',
-          '23',
-          '25',
-          '27',
-          '29',
-          '30',
-        ],
+        data: xValue,
         axisLabel: {
           show: false,
         },
@@ -51,7 +50,7 @@ class ProjectDivisionChart extends Component {
       },
       series: [
         {
-          data: [220, 332, 401, 434, 490, 430, 420, 332, 401, 434, 390, 330, 420, 432, 412, 332],
+          data: num,
           type: 'line',
           areaStyle: {
             color: '#149ab4',
@@ -72,59 +71,22 @@ class ProjectDivisionChart extends Component {
   };
 
   render() {
+    const { proSumData } = this.props;
     return (
       <div className={styles.container} style={{ width: '100%', height: '100%' }}>
         <div id="line3" className={styles.lineChart3} />
-        <div className={styles.provives}>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
+        {
+          proSumData && proSumData.length>0?
+          <div className={styles.provives}>
+            {
+              proSumData.map((item:any) => (
+                <div className={styles.pro}>
+                  <div className={styles.proName}>{item.name}</div>
+                </div>
+              ))
+            }
           </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-          <div className={styles.pro}>
-            <div className={styles.proName}>北京</div>
-          </div>
-        </div>
+        :null}
       </div>
     );
   }

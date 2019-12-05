@@ -1,32 +1,38 @@
 import React, { Component } from 'react';
 // @ts-ignore
-import APILoader from 'react-amap/lib/utils/APILoader';
-// @ts-ignore
-import Map from 'react-amap/lib/map';
-// @ts-ignore
-import Marker from 'react-amap/lib/marker';
-import Heatmap from 'react-amap-plugin-heatmap';
-// @ts-ignore
-import * as L7 from '@antv/l7';
-// @ts-ignore
 import mapboxgl from 'mapbox-gl';
 // @ts-ignore
 import MapboxLanguage from '@mapbox/mapbox-gl-language';
 // @ts-ignore
 // import MapboxLanguage from 'mapbox-gl';
 import styles from './index.less';
+// @ts-ignore
 import styleJson from '../../json/style.json';
 import HeatLayer from './layer/HeatLayer';
 import ClusterPointLayer from './layer/ClusterPointLayer';
 import MarkerPointLayer from './layer/MarkerPointLayer';
+import VideoPointLayer from './layer/VideoPointLayer';
+import ScenorPointLayer from './layer/ScenorPointLayer';
+// @ts-ignore
+import flvjs from 'flv.js';
+// @ts-ignore
+import chainJson from '../../json/data/china.json';
+import ChinaLayer from './layer/ChinaLayer';
+import ProvinceLayer from './layer/ProvinceLayer';
+import CityLayer from './layer/CityLayer';
 
 interface Props {
-  styleSheet?: {
-    height: number;
-  };
+  proPointData: {},
+  proPointAllData: {},
+  fetchProjectInfo: void;
 }
 class BackgroundComponentMap extends Component<Props> {
-  // heatmap:any=null;
+
+  state = {
+    defProCode: '',
+    defCityCode: '',
+  }
+  mapbox:any;
   constructor(props: Props) {
     super(props);
   }
@@ -34,219 +40,238 @@ class BackgroundComponentMap extends Component<Props> {
   componentDidMount(): void {
     mapboxgl.accessToken =
       'pk.eyJ1IjoibHB5MjIyNjY2IiwiYSI6ImNrMzZxNnUzMjA0MmMzb21wMTMycGlwdDEifQ.gJ4NtkLjt4fmvFky4uJDLA';
-    let mapbox = new mapboxgl.Map({
+    this.mapbox = new mapboxgl.Map({
       style: styleJson,
-      // center: [104.93, 37.27], //地图中心经纬度
-      center: [109.93, 34.27],
+      center: [104.93, 37.27], //地图中心经纬度
+      // center: [109.93, 34.27],
       // center: [113.22332296629585,22.7491244227423],
-      zoom: 7, //缩放级别
+      zoom: 4, //缩放级别
       minZoom: 1,
       maxZoom: 19,
       pitch: 0,
       container: 'map',
     });
-    mapbox.on('load', () => {
-      if (mapbox.loaded()) {
-        const heatlayer = new HeatLayer(mapbox, heatData2, 'earthquakes');
-        const markerlayer = new MarkerPointLayer(mapbox, points2, 'earthquakes3', true);
-        const pointlayer = new ClusterPointLayer(mapbox, points2, 'earthquakes2', true);
-        // heatlayer.addLayer();
-        markerlayer.addLayer();
-        // pointlayer.addLayer();
-      }
-      mapbox.on('mouseenter', 'earthquakes3', function() {
-        mapbox.getCanvas().style.cursor = 'pointer';
-      });
-      mapbox.on('click', 'earthquakes3', function(e) {
-        console.log(e.features[0].geometry.coordinates);
-        var coordinates = e.features[0].geometry.coordinates.slice();
-        new mapboxgl.Popup()
-          .setLngLat(coordinates)
-          .setHTML('11111111111')
-          .addTo(mapbox);
-      });
-    });
-
-    // while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
-    //   coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
-    // }
-
-    // mapbox.loadImage(require( '../../images/proIcon.png'), (error:any,image:any)=>{
-    //   if (error) throw error
-    //   console.log(image);
-    //   if (!mapbox.hasImage('cluster')) {
-    //     mapbox.addImage('cluster', image)
-    //   }
-    // })
-    // mapbox.addLayer({
-    //   "id": "places",
-    //   "type": "symbol",
-    //   "source": {
-    //     "type": "geojson",
-    //     "data": points2,
-    //   },
-    //   "layout": {
-    //       "icon-image": "cluster",
-    //       "icon-size": 1,
-    //   }
-    // });
-    // mapbox.on('moveend', () =>{
-    //   console.log(mapbox.getZoom());
-    // })
-    // mapbox.on('click', "places", function (e) {
-    //   console.log(e.features[0].geometry.coordinates)
-    //   var coordinates = e.features[0].geometry.coordinates.slice();
-    //   new mapboxgl.Popup()
-    //   .setLngLat(coordinates)
-    //   .setHTML('11111111111')
-    //   .addTo(mapbox);
-    // });
-
-    //地图数据获取
-    // var features = mapbox.querySourceFeatures('composite',{sourceLayer:'place_label'})
-    // console.log(features);
-    // for(let i=0;i<features.length;i++){
-    //   if(features[i].properties['name']=="ASSAM"){
-    //     console.log(features[i]);
-    //   }
-    // }
-
-    // mapbox.on('moveend', () =>{
-    // console.log(mapbox.getZoom());
-    // if(mapbox.getZoom()>6.5 && mapbox.getZoom()<10){
-    //   heatlayer.removeLayer();
-    //   markerlayer.addLayer();
-    //   pointlayer.addLayer();
-    // }else if(mapbox.getZoom()<6.5){
-    //   // const heatlayer2 = new HeatLayer(mapbox, heatData2, 'earthquakes');
-    //   // heatlayer.addLayer();
-    //   // markerlayer.removeLayer();
-    //   // pointlayer.removeLayer();
-    // }
-    // })
-    // mapbox.on('click', (e:any) => {
-    //   console.log(e)
-    // });
-
-    // var marker = new mapboxgl.Marker()
-    // .setLngLat([104.93, 37.27])
-    // .addTo(mapbox);
-    // var accomodation = L.icon({
-    //   iconUrl: require('../../images/clusterBg.png'),
-    //   iconSize: [72, 72],
-    //   iconAnchor: [8, 60],
-    // });
-
-    // eslint-disable-next-line
-    // var map = new AMap.Map('map', {
-    //   pitch: 50,
-    //   zoom: 7, //缩放级别
-    //   // zoom: 5,
-    //   minZoom: 1,
-    //   maxZoom: 19,
-    //   // center: [104.93, 37.27],
-    //   center: [109.93, 34.27],
-    //   mapStyle: 'amap://styles/a1e148fb8a2aee743d5ea7d5b09407a3',
-    //   // layers:[
-    //   //   disCountry,
-    //   // ],
-    // });
-    // // this.heatmapLoad(map);
-    // console.log(map)
-    // map.on('zoomstart',() => {//缩放开始
-
-    // })
-    // map.clearMap();
-
-    // var endIcon = new AMap.Icon({
-    //   size: new AMap.Size(24, 24),
-    //   image:require( '../../images/proIcon.png'),
-    //   imageSize: new AMap.Size(24, 24),
-    // });
-    // var markerContent = `` +
-    // `<div style="height:80px;width:100px;display:flex;background:#0a177d;">xxx-xxx项目</div>`;
-    // markers.forEach(function(marker) {//点标记
-    //   let mark = new AMap.Marker({
-    //       map: map,
-    //       icon: marker.icon,
-    //       position: [marker.position[0], marker.position[1]],
-    //       offset: new AMap.Pixel(-13, -30)
-    //   });
-    //   mark.on('click', () => {
-    //     console.log(mark.getLabel());
-    //     if(!mark.getLabel()){
-    //       mark.setLabel({
-    //         offset: new AMap.Pixel(0, 40),
-    //         content: markerContent, //设置文本标注内容
-    //         direction: 'right' //设置文本标注方位
-    //       });
-    //     }else{
-    //       mark.setLabel();
-    //     }
-    //   });
-    // });
-
-    // let cluster,markersT = [];//点聚合
-    // for (var i = 0; i < points.length; i += 1) {
-    //   markersT.push(new AMap.Marker({
-    //       position: points[i]['center'],
-    //       content: `<div style="background: url(${require('../../images/clusterBg.png')}); height: 72px; width: 72px;background-size:72px 72px;text-align:center;padding-top:26px;">${points[i]['count']}</div>`,
-    //       offset: new AMap.Pixel(-15, -15),
-    //   }))
-    // }
-    // cluster = new AMap.MarkerClusterer(map, markersT, {gridSize: 80});
-
-    // map.on('zoomchange',() => {//缩放级别改变
-    //   var zoom = map.getZoom();
-    //   var center = map.getCenter();
-    //   console.log('当前地图层级',zoom);
-    //   console.log('当前地图中心点',center);
-    //   if(zoom==7){
-
-    //   }
-    // })
-    // map.on('zoomend',() => {//缩放结束
-
-    // })
-    // map.on('movestart',() => {//地图移动开始  缩放或者拖拽
-    //   var center = map.getCenter();
-    // })
-    // map.on('mapmove',() => {//地图正在移动
-
-    // })
-    // map.on('moveend',() =>{//地图移动结束
-
-    // })
+    this.bindMapboxInfo(this.mapbox);
   }
 
-  // heatmapLoad = (map:any)=>{//热力图
-  //   let heatmap;
-  //   map.plugin(["AMap.Heatmap"], function () {
-  //       //初始化heatmap对象
-  //       //eslint-disable-next-line
-  //       heatmap = new AMap.Heatmap(map, {
-  //           radius: 25, //给定半径
-  //           opacity: [0, 0.8],
-  //           gradient:{          //热力图的颜色渐变区间。   {JSON}:key 插值的位置, 0-1;  value颜色值
-  //             0.5: 'blue',
-  //             0.65: 'rgb(117,211,248)',
-  //             0.7: 'rgb(0, 255, 0)',
-  //             0.9: '#ffea00',
-  //             1.0: 'red'
-  //           }
-  //       });
-  //       //设置数据集：该数据为北京部分“公园”数据
-  //       heatmap.setDataSet({
-  //           data: heatData, //热力图数据
-  //           max: 100
-  //       });
-  //   });
-  // };
+  componentWillReceiveProps(nextProps:  any) {
+    // const { proPointAllData }:any = nextProps;
+    // console.log(proPointAllData);
+    // if(proPointAllData && proPointAllData.features.length>0){
+      
+    // }
+  }
+
+  bindMapboxInfo = (mapbox:any) => {
+    mapbox.on('load', () => {
+      const { proPointAllData }:any = this.props;
+      this.addHeatLayer(mapbox,proPointAllData);
+      this.addPointLayer(mapbox,proPointAllData);
+      this.addMakerLayer(mapbox,proPointAllData);
+      
+      // this.addScenorLayer(mapbox);
+      // this.addVideoLayer(mapbox);
+      this.addMainLayer(mapbox);
+      mapbox.on('click', (e) => {
+        console.log(e)
+      })
+    });
+  }
+
+  addMainLayer = (mapbox:any) => {
+    //添加全国省市县id数据
+    const chinalayer = new ChinaLayer(mapbox, chainJson, 'maine', 'maineSource');
+    chinalayer.addLayer();
+    mapbox.on('mouseenter', 'maine', (e) =>  {
+      mapbox.getCanvas().style.cursor = 'pointer';
+    });
+    mapbox.on('click', 'maine', (e) => {
+      this.addProvinceLayer(mapbox,e);
+    });
+  }
+
+  addProvinceLayer = (mapbox:any,info:any)=> {
+    const { fetchProjectInfo }:any = this.props;
+    const { defProCode,defCityCode } =this.state;
+    console.log(info.features[0].properties);
+    const code = info.features[0].properties.adcode;
+    const level = info.features[0].properties.level;
+    fetchProjectInfo(code,level);
+    const c1= info.features[0].properties.center.replace('[','').split(',')[0];
+    const c2= info.features[0].properties.center.replace(']','').split(',')[1];
+    mapbox.setCenter([c1,c2]);
+    mapbox.setZoom(7);
+    const proJson = require(`../../json/data/province/${code}.json`);
+    const prolayer = new ProvinceLayer(mapbox,proJson,`province_${code}`,`proSource_${code}`);
+    if (!mapbox.getLayer(`province_${code}`)) {
+      if(mapbox.getLayer(`province_${defProCode}`)){
+        const prolayer2 = new ProvinceLayer(mapbox,proJson,`province_${defProCode}`,`proSource_${defProCode}`);
+        prolayer2.removeLayer();
+        if(mapbox.getLayer(`city_${defCityCode}`)){
+          const citylayer3 = new CityLayer(mapbox,{},`city_${defCityCode}`,`city_${defCityCode}`);
+          citylayer3.removeLayer();
+        }
+      }
+      prolayer.addLayer();
+      this.setState({
+        defProCode: code
+      })
+    }
+    mapbox.on('mouseenter', `province_${code}`, (e) =>  {
+      mapbox.getCanvas().style.cursor = 'pointer';
+    });
+    mapbox.on('click', `province_${code}`, (e) => {
+      this.addCityLayer(mapbox,e);
+    })
+  }
+
+  addCityLayer = (mapbox:any,info:any) => {
+    console.log(info.features[0].properties);
+    const { fetchProjectInfo }:any = this.props;
+    const { defCityCode } =this.state;
+    const adcode = info.features[0].properties.adcode;
+    const level = info.features[0].properties.level;
+    fetchProjectInfo(adcode,level);
+    const c1= info.features[0].properties.center.replace('[','').split(',')[0];
+    const c2= info.features[0].properties.center.replace(']','').split(',')[1];
+    mapbox.setCenter([c1,c2]);
+    mapbox.setZoom(12);
+    const cityJson = require(`../../json/data/city/${adcode}.json`);
+    const citylayer = new CityLayer(mapbox,cityJson,`city_${adcode}`,`city_${adcode}`);
+    if (!mapbox.getLayer(`city_${adcode}`)) {
+      if(mapbox.getLayer(`city_${defCityCode}`)){
+        const citylayer2 = new CityLayer(mapbox,cityJson,`city_${defCityCode}`,`city_${defCityCode}`);
+        citylayer2.removeLayer();
+      }
+      citylayer.addLayer();
+      this.setState({
+        defCityCode: adcode
+      })
+    }
+    mapbox.on('mouseenter', `city_${adcode}`, (e) =>  {
+      mapbox.getCanvas().style.cursor = 'pointer';
+    });
+    mapbox.on('click', `city_${adcode}`, (e) => {
+      // this.addAreaLayer(mapbox,e);
+    })
+  }
+
+  addAreaLayer = (mapbox:any,info:any) => {
+    console.log(info.features[0].properties);
+    if(info.features[0].properties){
+      const c1= info.features[0].properties.center.replace('[','').split(',')[0];
+      const c2= info.features[0].properties.center.replace(']','').split(',')[1];
+      mapbox.setCenter([c1,c2]);
+      mapbox.setZoom(14);
+    }
+  }
+
+  addHeatLayer =(mapbox:any,data:any) => {
+    //项目热力
+    const heatlayer = new HeatLayer(mapbox, data, 'heat', 'heatSource');
+    heatlayer.addLayer();
+  }
+
+  addPointLayer = (mapbox:any,pointAllData:any) => {
+    //项目点聚合
+    const pointlayer = new ClusterPointLayer(mapbox, pointAllData, 'pointCluster', true, 'pointClusterSource' );
+     pointlayer.addLayer();
+  }
+
+  addMakerLayer =(mapbox:any,pointAllData:any) => {
+    //项目点
+    const markerlayer = new MarkerPointLayer(mapbox, pointAllData, 'proMaker', 'proMakerSource');
+     markerlayer.addLayer();
+     //项目点绑定事件
+    mapbox.on('mouseenter', 'proMaker', function() {
+      mapbox.getCanvas().style.cursor = 'pointer';
+    });
+    mapbox.on('click', 'proMaker', function(e) {
+      console.log(e.features[0].geometry.coordinates);
+      const infos = `<div style="height:80px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
+        <div style="width:150px;margin:10px 10px;text-align:center;">xxx-xxx项目</div>
+      </div>`;
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      new mapboxgl.Popup({ offset: -55 ,closeButton:false,})
+        .setLngLat(coordinates)
+        .setHTML(infos)
+        .addTo(mapbox);
+    });
+  }
+
+  addVideoLayer = (mapbox:any) => {
+    //摄像头点
+    const videolayer = new VideoPointLayer(mapbox, pointVideo, 'video', 'videoSource');
+    // videolayer.addLayer();
+     //摄像头绑定事件
+    mapbox.on('mouseenter', 'video', function() {
+      mapbox.getCanvas().style.cursor = 'pointer';
+    });
+    mapbox.on('click', 'video', function(e) {
+      console.log(e.features[0].geometry.coordinates);
+      const infos = `<div style="height:250px;width:340px;display:flex;flex-warp:warp;flex-direction:row;background:url(${require('../../images/videoInfo.png')}) no-repeat;background-size:340px 250px;">
+        <div style="width:150px;margin:5px 5px;text-align:center;">监控点名称</div>
+        <div style="width:320px;height:200px;margin-top:28px;margin-left:-150px;">
+          <video style="width:100%;height:100%" id="videoElement"></video>
+        </div>
+      </div>`;
+      
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      new mapboxgl.Popup({ offset: [50,-40] ,closeButton:false,})
+        .setLngLat(coordinates)
+        .setHTML(infos)
+        .addTo(mapbox);
+      if(flvjs.isSupported()){
+        var videoElement = document.getElementById('videoElement');
+        var flvPlayer = flvjs.createPlayer({
+            type: 'flv',
+            url: 'http://example.com/flv/video.flv'
+        });
+        flvPlayer.attachMediaElement(videoElement);
+        flvPlayer.load();
+        flvPlayer.play();
+      }
+    });
+  }
+
+  addScenorLayer = (mapbox:any) => {
+    //传感器点
+    const scenorlayer = new ScenorPointLayer(mapbox, pointScenors, 'scenor', 'videoSource');
+    // scenorlayer.addLayer();
+    //传感器绑定事件
+    mapbox.on('mouseenter', 'scenor', function() {
+      mapbox.getCanvas().style.cursor = 'pointer';
+    });
+    mapbox.on('click', 'scenor', function(e) {
+      console.log(e.features[0].geometry.coordinates);
+      const infos = `<div style="height:240px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
+        <div style="width:150px;margin:10px 10px;text-align:center;">xxx-xxx项目</div>
+      </div>`;
+      var coordinates = e.features[0].geometry.coordinates.slice();
+      while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
+        coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
+      }
+      new mapboxgl.Popup({ offset: [120,220] ,closeButton:false,})
+        .setLngLat(coordinates)
+        .setHTML(infos)
+        .addTo(mapbox);
+    });
+  }
+
+   
+  
 
   render() {
+    
     return (
       <div className={styles.container}>
-        <div id="map" style={{ width: '100%', height: '100%' }} />
+        <div id="map" className={styles.mapContainer}/>
       </div>
     );
   }
@@ -308,7 +333,7 @@ const markers = [
     position: [108.93, 32.27],
   },
 ];
-const points = {
+const pointVideo = {
   type: 'FeatureCollection',
   features: [
     {
@@ -316,12 +341,25 @@ const points = {
       properties: {},
       geometry: {
         type: 'Point',
-        coordinates: [107.93, 35.27],
+        coordinates: [110.93, 34.27],
       },
     },
   ],
 };
-const points2 = {
+const pointScenors = {
+  type: 'FeatureCollection',
+  features: [
+    {
+      type: 'Feature',
+      properties: {},
+      geometry: {
+        type: 'Point',
+        coordinates: [109.93, 34.27],
+      },
+    },
+  ],
+};
+const pointsPro = {
   type: 'FeatureCollection',
   features: [
     {

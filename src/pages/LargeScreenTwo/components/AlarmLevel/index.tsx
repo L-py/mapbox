@@ -1,18 +1,35 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
 // @ts-ignore
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/chart/pie';
 
-class ALarmLevelChart extends Component {
+
+interface Props extends FormComponentProps{
+  levData: [];
+}
+
+class ALarmLevelChart extends Component<Props> {
   componentDidMount(): void {
-    this.initPieChart();
+
   }
 
-  initPieChart = () => {
+  componentWillReceiveProps(nextProps:  any) {
+    const { levData } = nextProps;
+    if(levData && levData.length>0){
+      this.initPieChart(levData);
+    }
+  }
+
+  initPieChart = (levData:any) => {
     const myChartL = echarts.init(document.getElementById('pie'));
+    let data1 =[];
+    if(levData.length>0){
+      data1= levData.map((item:any) => ({ value: item.value, name: item.name=='01'?'一级告警':item.name=='02'?'二级告警':item.name=='03'?'三级告警':item.name=='04'?'四级告警':item.name=='05'?'五级告警':'' }))
+    }
     myChartL.setOption({
       tooltip: {
         trigger: 'item',
@@ -26,13 +43,7 @@ class ALarmLevelChart extends Component {
           smooth: true,
           radius: ['55%', '70%'],
           avoidLabelOverlap: false,
-          data: [
-            { value: 335, name: '一级告警' },
-            { value: 310, name: '二级告警' },
-            { value: 234, name: '三级告警' },
-            { value: 135, name: '四级告警' },
-            { value: 1548, name: '五级告警' },
-          ],
+          data:data1,
         },
       ],
       color: [
@@ -47,31 +58,22 @@ class ALarmLevelChart extends Component {
   };
 
   render() {
+    const { levData } = this.props;
     return (
       <div className={styles.container} style={{ width: '100%', height: '100%' }}>
         <div id="pie" className={styles.pieChart} />
-        <div className={styles.labels}>
-          <div className={styles.lab1}>
-            <div>1233</div>
-            <div>一级告警</div>
-          </div>
-          <div className={styles.lab2}>
-            <div>1233</div>
-            <div>二级告警</div>
-          </div>
-          <div className={styles.lab3}>
-            <div>1233</div>
-            <div>三级告警</div>
-          </div>
-          <div className={styles.lab4}>
-            <div>1233</div>
-            <div>四级告警</div>
-          </div>
-          <div className={styles.lab5}>
-            <div>1233</div>
-            <div>五级告警</div>
-          </div>
-        </div>
+        {
+            levData && levData.length>0?
+            <div className={styles.labels}>
+              {levData.map((item:any) => (
+                <div className={item.name=='01'?styles.lab1:item.name=='02'?styles.lab2:item.name=='03'?styles.lab3:item.name=='04'?styles.lab4:item.name=='05'?styles.lab5:''}>
+                  <div>{item.value}</div>
+                  <div>{item.name=='01'?'一级告警':item.name=='02'?'二级告警':item.name=='03'?'三级告警':item.name=='04'?'四级告警':item.name=='05'?'五级告警':''}</div>
+                </div>
+              ))}
+            </div>
+        :null}
+        
       </div>
     );
   }

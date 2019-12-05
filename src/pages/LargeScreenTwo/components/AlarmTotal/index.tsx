@@ -1,40 +1,39 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
 // @ts-ignore
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/chart/line';
 
-class ALarmTotalChart extends Component {
+interface Props extends FormComponentProps{
+  totData: [];
+}
+
+class ALarmTotalChart extends Component<Props> {
   componentDidMount(): void {
-    this.initLineChart();
   }
 
-  initLineChart = () => {
+  componentWillReceiveProps(nextProps:  any) {
+    const { totData } = nextProps;
+    if(totData && totData.length>0){
+      this.initLineChart(totData);
+    }
+  }
+
+  initLineChart = (totData:any) => {
     const myChartL = echarts.init(document.getElementById('line'));
+    let xValue =[], num=[];
+    if(totData.length>0){
+      xValue= totData.map((item:any,index:number) => (index+1));
+      num= totData.map((item:any,index:number) => (item.value));
+    }
     myChartL.setOption({
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: [
-          '1',
-          '3',
-          '5',
-          '7',
-          '9',
-          '11',
-          '13',
-          '15',
-          '17',
-          '19',
-          '21',
-          '23',
-          '25',
-          '27',
-          '29',
-          '30',
-        ],
+        data: xValue,
         axisLabel: {
           show: true,
           textStyle: {
@@ -60,7 +59,7 @@ class ALarmTotalChart extends Component {
       },
       series: [
         {
-          data: [220, 332, 401, 434, 490, 430, 420, 332, 401, 434, 390, 330, 420, 432, 412, 432],
+          data: num,
           type: 'line',
           smooth: true,
           areaStyle: {

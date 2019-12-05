@@ -1,50 +1,37 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
 import { Progress } from 'antd';
 
-class ProjectTypePage extends Component {
+interface Props extends FormComponentProps{
+  proTypeData: [];
+}
+
+class ProjectTypePage extends Component<Props> {
   componentDidMount(): void {}
 
   render() {
+    const { proTypeData } = this.props;
+    const color = ['#d33974','#e15e93','#204fff','#07b9ff','#07b9ff'];
     return (
       <div className={styles.container} style={{ width: '100%', height: '100%' }}>
-        <div className={styles.content}>
-          <div className={styles.con}>
-            1&nbsp;&nbsp;
-            <div className={styles.proName}>化工工程</div>
-            <div style={{ width: 220 }}>
-              <Progress percent={75} size="small" strokeColor={'#d33974'} />
+        {
+          proTypeData && proTypeData.length>0?
+            <div className={styles.content}>
+
+              {
+                proTypeData.map((item:any,index:number) => (
+                  <div className={styles.con}>
+                    1&nbsp;&nbsp;
+                    <div className={styles.proName}>{item.proCategory}</div>
+                    <div style={{ width: 220 }}>
+                      <Progress percent={item.value} size="small" strokeColor={color[index]} />
+                    </div>
+                  </div>
+                ))
+              }
             </div>
-          </div>
-          <div className={styles.con}>
-            2&nbsp;&nbsp;
-            <div className={styles.proName}>海洋石油工程</div>
-            <div style={{ width: 220 }}>
-              <Progress percent={60} size="small" strokeColor={'#e15e93'} />
-            </div>
-          </div>
-          <div className={styles.con}>
-            3&nbsp;&nbsp;
-            <div className={styles.proName}>市政工程</div>
-            <div style={{ width: 220 }}>
-              <Progress percent={50} size="small" strokeColor={'#204fff'} />
-            </div>
-          </div>
-          <div className={styles.con}>
-            4&nbsp;&nbsp;
-            <div className={styles.proName}>石化工程</div>
-            <div style={{ width: 220 }}>
-              <Progress percent={40} size="small" strokeColor={'#07b9ff'} />
-            </div>
-          </div>
-          <div className={styles.con}>
-            5&nbsp;&nbsp;
-            <div className={styles.proName}>天然气工程</div>
-            <div style={{ width: 220 }}>
-              <Progress percent={30} size="small" strokeColor={'#07b9ff'} />
-            </div>
-          </div>
-        </div>
+        :null}
       </div>
     );
   }

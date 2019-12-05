@@ -1,17 +1,37 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
 // @ts-ignore
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/chart/bar';
 
-class ALarmConfirmationChart extends Component {
+interface Props extends FormComponentProps{
+  conData: [];
+}
+
+class ALarmConfirmationChart extends Component<Props> {
   componentDidMount(): void {
-    this.initBarChart();
+   
   }
 
-  initBarChart = () => {
+  componentWillReceiveProps(nextProps:  any) {
+    const { conData } = nextProps;
+    if(conData && conData.length>0){
+      this.initBarChart(conData);
+    }
+  }
+
+  initBarChart = (conData:any) => {
+    
+    let xValue = [],onCon = [],unCon = [],num = [];
+    if(conData.length>0){
+      xValue=conData.map((item:any) => (item.name));
+      onCon=conData.map((item:any) => (item.valueMap.confirmed));
+      unCon=conData.map((item:any) => (item.valueMap.unconfirmed));
+      num=conData.map((item:any) => (item.valueMap.total));
+    }
     const myChartL = echarts.init(document.getElementById('bar'));
     myChartL.setOption({
       color: ['#3398DB'],
@@ -31,7 +51,7 @@ class ALarmConfirmationChart extends Component {
       xAxis: [
         {
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun', 'Sat', 'Sun'],
+          data: xValue,
           axisTick: {
             alignWithLabel: true,
           },
@@ -63,7 +83,7 @@ class ALarmConfirmationChart extends Component {
           type: 'bar',
           barWidth: '60%',
           stack: '确认情况',
-          data: [30, 52, 200, 334, 390, 350, 220, 170, 234],
+          data: onCon,
           itemStyle: {
             normal: {
               color: '#4860ff',
@@ -75,7 +95,7 @@ class ALarmConfirmationChart extends Component {
           type: 'bar',
           barWidth: '60%',
           stack: '确认情况',
-          data: [20, 52, 100, 54, 100, 30, 120, 70, 134],
+          data: unCon,
           itemStyle: {
             normal: {
               color: '#0ae8ff',
@@ -84,7 +104,7 @@ class ALarmConfirmationChart extends Component {
         },
         {
           name: '告警总量',
-          data: [50, 104, 300, 388, 590, 380, 330, 240, 364],
+          data:num,
           type: 'line',
           itemStyle: {
             normal: {

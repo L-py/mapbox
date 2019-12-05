@@ -1,18 +1,37 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
 // @ts-ignore
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/component/tooltip';
 import 'echarts/lib/component/legend';
 import 'echarts/lib/chart/line';
 
-class ALarmAreaChart extends Component {
-  componentDidMount(): void {
-    this.initLineChart();
-  }
+interface Props extends FormComponentProps{
+  regData: [];
+}
 
-  initLineChart = () => {
+class ALarmAreaChart extends Component<Props> {
+  componentDidMount(): void {
+  }
+  componentWillReceiveProps(nextProps:  any) {
+    const { regData } = nextProps;
+    console.log(regData);
+    if(regData && regData.length>0){
+      this.initLineChart(regData);
+    }
+  }
+  initLineChart = (regData:any) => {
     const myChartL = echarts.init(document.getElementById('linea'));
+    let xValue =[], num1=[], num2=[], num3=[], num4=[], num5=[];
+    if(regData.length>0){
+      xValue= regData.map((item:any) => (item.name));
+      num1= regData.map((item:any) => (item.valueMap.一级告警?item.valueMap.一级告警:0));
+      num2= regData.map((item:any) => (item.valueMap.二级告警?item.valueMap.二级告警:0));
+      num3= regData.map((item:any) => (item.valueMap.三级告警?item.valueMap.三级告警:0));
+      num4= regData.map((item:any) => (item.valueMap.四级告警?item.valueMap.四级告警:0));
+      num5= regData.map((item:any) => (item.valueMap.五级告警?item.valueMap.五级告警:0));
+    }
     myChartL.setOption({
       title: {
         text: '折线图堆叠',
@@ -75,7 +94,7 @@ class ALarmAreaChart extends Component {
       xAxis: {
         type: 'category',
         boundaryGap: false,
-        data: ['无双镇', '无双镇', '无双镇', '无双镇', '无双镇', '无双镇', '无双镇', '无双镇'],
+        data: xValue,
         axisLabel: {
           show: true,
           textStyle: {
@@ -100,7 +119,7 @@ class ALarmAreaChart extends Component {
           name: '一级告警',
           type: 'line',
           stack: '总量',
-          data: [120, 132, 101, 134, 90, 230, 210, 160],
+          data: num1,
           symbol: 'none',
           itemStyle: {
             normal: {
@@ -115,7 +134,7 @@ class ALarmAreaChart extends Component {
           name: '二级告警',
           type: 'line',
           stack: '总量',
-          data: [220, 182, 191, 234, 290, 330, 310, 210],
+          data: num2,
           symbol: 'none',
           itemStyle: {
             normal: {
@@ -130,7 +149,7 @@ class ALarmAreaChart extends Component {
           name: '三级告警',
           type: 'line',
           stack: '总量',
-          data: [150, 232, 201, 154, 190, 330, 410, 310],
+          data: num3,
           symbol: 'none',
           itemStyle: {
             normal: {
@@ -145,7 +164,7 @@ class ALarmAreaChart extends Component {
           name: '四级告警',
           type: 'line',
           stack: '总量',
-          data: [320, 332, 301, 334, 390, 330, 320, 280],
+          data: num4,
           symbol: 'none',
           itemStyle: {
             normal: {
@@ -160,7 +179,7 @@ class ALarmAreaChart extends Component {
           name: '五级告警',
           type: 'line',
           stack: '总量',
-          data: [220, 232, 201, 234, 290, 230, 220, 190],
+          data: num5,
           symbol: 'none',
           itemStyle: {
             normal: {
