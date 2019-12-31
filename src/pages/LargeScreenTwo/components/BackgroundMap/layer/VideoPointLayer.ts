@@ -28,6 +28,8 @@ class VideoPointLayer {
           id: this.layername,
           type: 'symbol',
           source: this.sourceName,
+          minzoom: 10,
+          maxzoom: 18,
           layout: {
             'icon-image': 'videoImg',
             'icon-size': 0.3,

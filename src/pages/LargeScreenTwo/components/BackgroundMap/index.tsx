@@ -26,8 +26,9 @@ import CityLayer from './layer/CityLayer';
 interface Props {
   proPointData: {},
   proPointAllData: {},
-  fetchProjectInfo: void;
-  changeBounds: void;
+  fetchProjectInfo: void,
+  changeBounds: void,
+  changeParams: void,
   moDevPointData: {},
   devType: string,
   areaCode: string,
@@ -106,7 +107,7 @@ class BackgroundComponentMap extends Component<Props> {
 
   bindMapboxInfo = (mapbox:any) => {
     mapbox.on('load', () => {
-      const { proPointAllData, changeBounds }:any = this.props;
+      const { proPointAllData, changeBounds, changeParams }:any = this.props;
       this.addHeatLayer(mapbox,proPointAllData);
       this.addPointLayer(mapbox,proPointAllData,'');
       this.addMakerLayer(mapbox,proPointAllData,'');
@@ -131,6 +132,9 @@ class BackgroundComponentMap extends Component<Props> {
           if (visibility != 'visible') {
             mapbox.setLayoutProperty('maine', 'visibility', 'visible')
           }
+        }
+        if(mapbox.getZoom()<3.6){
+          changeParams({});
         }
         changeBounds(mapbox.getBounds()._ne,mapbox.getBounds()._sw);
       })

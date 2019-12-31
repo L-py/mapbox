@@ -59,7 +59,7 @@ class MapPage extends Component<Props> {
   }
 
   render() {
-    const { index, changeBounds, devType, devStatue } = this.props;
+    const { index, changeBounds, changeParams, devType, devStatue } = this.props;
     const { proPointAllData, moDevPointData, proPointData } = index;
     const { areaCode } = this.state;
     console.log(moDevPointData);
@@ -69,7 +69,7 @@ class MapPage extends Component<Props> {
     return (
         <div>
           <BackgroundComponentMap {...motheds} proPointAllData={proPointAllData} proPointData={proPointData} areaCode={areaCode}
-          moDevPointData={moDevPointData} changeBounds={changeBounds} devType={devType} devStatue={devStatue}/>
+          moDevPointData={moDevPointData} changeBounds={changeBounds} changeParams={changeParams} devType={devType} devStatue={devStatue}/>
         </div>
     );
   }

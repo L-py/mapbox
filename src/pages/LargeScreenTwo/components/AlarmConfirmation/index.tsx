@@ -85,18 +85,18 @@ class ALarmConfirmationChart extends Component<Props> {
           stack: '确认情况',
           data: onCon,
           itemStyle: {
-            // normal: {
-            //   color: '#4860ff',
-            // },
             normal: {
-              color: new echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                      {offset: 0, color: '#0ae8ff'},
-                      {offset: 1, color: '#4860ff'}
-                  ]
-              )
+              color: '#4860ff',
             },
+            // normal: {
+            //   color: new echarts.graphic.LinearGradient(
+            //       0, 0, 0, 1,
+            //       [
+            //           {offset: 0, color: '#0ae8ff'},
+            //           {offset: 1, color: '#4860ff'}
+            //       ]
+            //   )
+            // },
           },
         },
         {
@@ -107,14 +107,17 @@ class ALarmConfirmationChart extends Component<Props> {
           data: unCon,
           itemStyle: {
             normal: {
-              color: new echarts.graphic.LinearGradient(
-                  0, 0, 0, 1,
-                  [
-                      {offset: 0, color: '#6decf9'},
-                      {offset: 1, color: '#0ae8ff'}
-                  ]
-              )
+              color: '#0ae8ff',
             },
+            // normal: {
+            //   color: new echarts.graphic.LinearGradient(
+            //       0, 0, 0, 1,
+            //       [
+            //           {offset: 0, color: '#6decf9'},
+            //           {offset: 1, color: '#0ae8ff'}
+            //       ]
+            //   )
+            // },
           },
         },
         {

@@ -33,9 +33,9 @@ class LargeScreenPage extends Component<Props> {
     devType: '',
     devStatue: false,
     fatchParams: {},
-    dataTypeL: '1',
-    dataTypeT: '1',
-    dataTypeA: '1',
+    dataTypeL: '0',
+    dataTypeT: '0',
+    dataTypeA: '0',
   }
   changeBounds = (ne:any,sw:any) => {
     this.setState({

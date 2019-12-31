@@ -27,6 +27,8 @@ class ScenorPointLayer {
           id: this.layername,
           type: 'symbol',
           source: this.sourceName,
+          minzoom: 10,
+          maxzoom: 18,
           layout: {
             'icon-image': 'scenor',
             'icon-size': 0.3,

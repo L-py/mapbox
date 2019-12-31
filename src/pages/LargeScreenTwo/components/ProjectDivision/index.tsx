@@ -53,6 +53,11 @@ class ProjectDivisionChart extends Component<Props> {
             color: 'rgb(255,255,255,0.3)', //更改坐标轴文字颜色
           },
         },
+        axisLine:{
+          lineStyle:{
+            color:'#fff'
+          } 
+        },
       },
       series: [
         {
