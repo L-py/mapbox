@@ -25,7 +25,7 @@ class ProvinceLayer {
           'layout': {},
           'paint': {
             'fill-color': '#fff',
-            'fill-opacity': 0.2
+            'fill-opacity': 0.1
             }
         });
       }

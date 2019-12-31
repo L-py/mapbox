@@ -27,32 +27,135 @@ interface Props extends FormComponentProps {
   submitting: loading.effects[''],
 }))
 class LargeScreenPage extends Component<Props> {
-
+  state = {
+    boundNe: {},
+    boundSw: {},
+    devType: '',
+    devStatue: false,
+    fatchParams: {},
+    dataTypeL: '1',
+    dataTypeT: '1',
+    dataTypeA: '1',
+  }
+  changeBounds = (ne:any,sw:any) => {
+    this.setState({
+      boundNe: ne,
+      boundSw: sw
+    })
+  }
+  changeDevType = (type:string,status:boolean) =>{
+    this.setState({
+      devType: type,
+      devStatue: status
+    })
+  }
+  changeDataType = (type:string,status:string) => {
+    const { dispatch }:any = this.props;
+    const { fatchParams } = this.state;
+    if(type == 'level'){
+      this.setState({
+        dataTypeL:status
+      })
+      dispatch({
+        type: 'index/initAlarmLevelStati',
+        payload: {...fatchParams,dateType:status}
+      });
+    }else if(type == 'total') {
+      this.setState({
+        dataTypeT:status
+      })
+      dispatch({
+        type: 'index/initAlarmTotalStati',
+        payload: {...fatchParams,dateType:status}
+      });
+    }else if(type == 'area') {
+      this.setState({
+        dataTypeA:status
+      })
+      dispatch({
+        type: 'index/initAlarmRegionStati',
+        payload: {...fatchParams,dateType:status}
+      });
+    }
+  }
+  changeParams = (params:any) => {
+    this.setState({
+      fatchParams:params
+    })
+    const { dispatch }:any = this.props;
+    const { dataTypeL, dataTypeT, dataTypeA } = this.state;
+    dispatch({
+      type: 'index/initAlarmLevelStati',
+      payload: {...params,dateType:dataTypeL}
+    });
+    dispatch({
+      type: 'index/initAlarmTotalStati',
+      payload: {...params,dateType:dataTypeT}
+    });
+    dispatch({
+      type: 'index/initAlarmRegionStati',
+      payload: {...params,dateType:dataTypeA}
+    });
+    dispatch({
+      type: 'index/initProSum',
+      payload: {...params}
+    });
+    dispatch({
+      type: 'index/initTotalStati',
+      payload: {...params}
+    });
+    dispatch({
+      type: 'index/initAlarmConfirmStati',
+      payload: {...params}
+    });
+    dispatch({
+      type: 'index/initMonitorDevStati',
+      payload: {...params}
+    });
+    dispatch({
+      type: 'index/initProTypeStati',
+      payload: {...params}
+    });
+    dispatch({
+      type: 'index/initMonitorDevNumber',
+      payload: {...params}
+    });
+  }
   componentDidMount(): void {
     var clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
     var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
-    const scaleX = window.innerWidth / 1920;
-    const scaleY = window.innerHeight / 1080;
+    const scaleX = clientWidth / 1920;
+    const scaleY = clientHeight / 1080;
     console.log(scaleX)
-    document.getElementById('main-container').style.transform = `scale(${scaleX})`;
+    document.getElementById('main-container').style.transform = `scale(${scaleX},${scaleY})`;
     document.getElementById('main-container').style.transformOrigin  = 'left top';
     document.getElementById('main-container').style.transition = 'all 0.1s linear';
     const scaX = 1 /scaleX;
     const scaY = 1 /scaleY;
     console.log(scaX);
-    document.getElementById('map').style.transform = `scale(${scaX})`;
+    document.getElementById('map').style.transform = `scale(${scaX},${scaY})`;
     document.getElementById('map').style.transformOrigin = 'left top';
-    document.getElementById('map').style.transition = 'all 0.1s linear';
-    document.getElementById('map').style.width = clientWidth + 'px';
-    document.getElementById('map').style.height = clientHeight + 'px';
+    // document.getElementById('backgrond').style.transform = `scale(${scaX})`;
+    // document.getElementById('backgrond').style.transformOrigin = 'left top';
   }
   render() {
+    const { boundNe, boundSw, devType, devStatue } = this.state;
+    const motheds = {
+      changeBounds: this.changeBounds,
+      changeParams: this.changeParams,
+    }
+    const motheds1 = {
+      changeDataType: this.changeDataType,
+    }
+    const motheds2 = {
+      changeDevType: this.changeDevType,
+    }
     return (
       <div className={styles.container} id="main-container">
-        <MapPage />
-        {/* <div className={styles.backGrounds}></div>
-        <LeftPanelPage/>
-        <RightPanelPage/> */}
+        <MapPage {...motheds} devType={devType} devStatue={devStatue}/>
+        <div id="backgrond" className={styles.backGrounds}></div>
+        <LeftPanelPage {...motheds1}/>
+        <RightPanelPage boundNe={boundNe} boundSw={boundSw} {...motheds2}/>
       </div>
     );
   }

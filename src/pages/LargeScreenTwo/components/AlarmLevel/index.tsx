@@ -38,7 +38,7 @@ class ALarmLevelChart extends Component<Props> {
 
       series: [
         {
-          name: '访问来源',
+          name: '告警级别',
           type: 'pie',
           smooth: true,
           radius: ['55%', '70%'],
@@ -73,7 +73,6 @@ class ALarmLevelChart extends Component<Props> {
               ))}
             </div>
         :null}
-        
       </div>
     );
   }

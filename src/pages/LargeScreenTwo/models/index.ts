@@ -1,6 +1,6 @@
 import { EffectsCommandMap, Model } from 'dva';
 import { queryAlarmConfirmStatis,queryAlarmLevelStatis,queryAlarmTotalStatis,queryAlarmRegionStatis,
-  queryMonitorDevStatis,queryProTypeStatis,queryProSum,queryTotalStatis,queryMonitorDevNumber,queryProPointData } from '../services/index';
+  queryMonitorDevStatis,queryProTypeStatis,queryProSum,queryTotalStatis,queryMonitorDevNumber,queryProPointData,queryMondevicePointData,queryAttr } from '../services/index';
 
 export interface indexState {
   conData: [],
@@ -10,10 +10,12 @@ export interface indexState {
   monData: [],
   proTypeData: [],
   proSumData: [],
-  totalData: [],
+  totalData: {},
   monDevData: [],
   proPointAllData: {},
   proPointData: {},
+  moDevPointData: {},
+  attData: {},
 }
 
 const index: Model = {
@@ -27,10 +29,12 @@ const index: Model = {
       monData: [],
       proTypeData: [],
       proSumData: [],
-      totalData: [],
+      totalData: {},
       monDevData: [],
       proPointAllData: {},
       proPointData: {},
+      moDevPointData: {},
+      attData: {},
     },
   
     effects: {
@@ -154,6 +158,29 @@ const index: Model = {
         }
       },
       
+      * fetchMondevicePointData({ payload }, { call, put }: EffectsCommandMap) {
+        try{
+          const response = yield call(queryMondevicePointData, payload);
+          yield put({
+            type: 'initMondevicePointData',
+            payload: response,
+          });
+        }catch(e){
+          console.log(e)
+        }
+      },
+      * fetchAttr({ payload }, { call, put }: EffectsCommandMap) {
+        try{
+          const response = yield call(queryAttr, payload);
+          yield put({
+            type: 'initAttr',
+            payload: response,
+          });
+        }catch(e){
+          console.log(e)
+        }
+      },
+      
     },
   
     reducers: {
@@ -221,6 +248,18 @@ const index: Model = {
           return {
               ...state,
               proPointData: payload,
+          };
+        },
+        initMondevicePointData(state, { payload }: any): [] {
+          return {
+              ...state,
+              moDevPointData: payload,
+          };
+        },
+        initAttr(state, { payload }: any): [] {
+          return {
+              ...state,
+              attData: payload,
           };
         },
     },

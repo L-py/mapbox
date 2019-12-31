@@ -18,12 +18,11 @@
   "pitch": 0,
   "sources": {
     "composite": {
-      "url": "mapbox://mapbox.mapbox-streets-v8",
+      "url": "http://192.168.1.111:8088/data/v3.json",
       "type": "vector"
     }
   },
-  "sprite": "mapbox://sprites/lpy222666/ck359gv8v05ug1cqt88ue6dso/629bpdwpqxu5j66f3aoku8h84",
-  "glyphs": "mapbox://fonts/lpy222666/{fontstack}/{range}.pbf",
+  "glyphs": "http://192.168.1.111:8088/fonts/{fontstack}/{range}.pbf",
   "layers": [
     {
       "id": "background",

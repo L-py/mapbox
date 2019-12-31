@@ -10,17 +10,18 @@ class ScenorPointLayer {
   }
 
   addLayer = () => {
-    const option = this.addData();
     this.map.loadImage(require('../../../images/Scenor.png'), (error: any, image: any) => {
       if (error) throw error;
       console.log(image);
       if (!this.map.hasImage('scenor')) {
         this.map.addImage('scenor', image);
       }
-      this.map.addSource(this.sourceName, {
-        'type': 'geojson',
-        'data': this.data
-      })
+      if(!this.map.getSource(this.sourceName)){
+        this.map.addSource(this.sourceName, {
+          'type': 'geojson',
+          'data': this.data
+        })
+      }
       if (!this.map.getLayer(this.layername)){
         this.map.addLayer({
           id: this.layername,
@@ -37,8 +38,12 @@ class ScenorPointLayer {
   };
 
   removeLayer = () => {
-    this.map.removeLayer(this.layername);
-    this.map.removeSource(this.sourceName);
+    if(this.map.getLayer(this.layername)){
+      this.map.removeLayer(this.layername);
+    }
+    if(this.map.getSource(this.sourceName)){
+      this.map.removeSource(this.sourceName);
+    }
   };
 }
 

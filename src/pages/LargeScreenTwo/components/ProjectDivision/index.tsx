@@ -4,6 +4,8 @@ import { FormComponentProps } from 'antd/es/form';
 // @ts-ignore
 import echarts from 'echarts/lib/echarts';
 import 'echarts/lib/chart/line';
+import 'echarts/lib/component/tooltip';
+import 'echarts/lib/component/legend';
 
 interface Props extends FormComponentProps{
   proSumData: [];
@@ -28,6 +30,10 @@ class ProjectDivisionChart extends Component<Props> {
       num= proSumData.map((item:any,index:number) => (item.value));
     }
     myChartL.setOption({
+      tooltip: {
+        trigger: 'item',
+        formatter: '{a} <br/>{b} : {c} ({d}%)',
+      },
       xAxis: {
         type: 'category',
         boundaryGap: false,
@@ -50,12 +56,18 @@ class ProjectDivisionChart extends Component<Props> {
       },
       series: [
         {
-          data: num,
-          type: 'line',
-          areaStyle: {
-            color: '#149ab4',
+          name:'项目数量',
+          type:'line',
+          stack: '总量',
+          label: {
+              normal: {
+                  show: true,
+                  position: 'top'
+              }
           },
-          symbol: 'none',
+          areaStyle: {
+            color: 'rgba(20,154,180,0.5)',
+          },
           smooth: true,
           itemStyle: {
             normal: {
@@ -63,9 +75,45 @@ class ProjectDivisionChart extends Component<Props> {
                 width: 3,
                 color: '#38c1f2',
               },
+              label: {
+                show: true,
+                position: 'top',
+                color:'#fff',
+                fontSize:16
+              }
             },
           },
-        },
+          data:num
+      }
+        // {
+        //   data: num,
+        //   type: 'line',
+        //   areaStyle: {
+        //     color: '#149ab4',
+        //   },
+        //   stack: '总量',
+        //   symbol: 'none',
+        //   // itemStyle : { normal: {label : {show: true}}}
+        //   // label: {
+        //   //   normal: {
+        //   //     show: true,
+        //   //     position: 'top'
+        //   //   }
+        //   // },
+        //   smooth: true,
+        //   itemStyle: {
+        //     normal: {
+        //       lineStyle: {
+        //         width: 3,
+        //         color: '#38c1f2',
+        //       },
+        //       label: {
+        //         show: true,
+        //         position: 'top'
+        //       }
+        //     },
+        //   },
+        // },
       ],
     });
   };

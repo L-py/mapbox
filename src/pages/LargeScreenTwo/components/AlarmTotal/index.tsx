@@ -26,7 +26,7 @@ class ALarmTotalChart extends Component<Props> {
     const myChartL = echarts.init(document.getElementById('line'));
     let xValue =[], num=[];
     if(totData.length>0){
-      xValue= totData.map((item:any,index:number) => (index+1));
+      xValue= totData.map((item:any,index:number) => (item.name));
       num= totData.map((item:any,index:number) => (item.value));
     }
     myChartL.setOption({
@@ -63,7 +63,7 @@ class ALarmTotalChart extends Component<Props> {
           type: 'line',
           smooth: true,
           areaStyle: {
-            color: '#149ab4',
+            color: 'rgba(20,154,180,0.5)',
           },
           symbol: 'none',
           itemStyle: {

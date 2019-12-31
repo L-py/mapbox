@@ -1,9 +1,10 @@
 class CityLayer {
-    constructor(map, data, layername, sourceName) {
+    constructor(map, data, layername, sourceName, parent) {
       this.map = map;
       this.data = data;
       this.layername = layername;
       this.sourceName = sourceName;
+      this.parent = parent;
     }
   
     addLayer = () => {
@@ -25,9 +26,9 @@ class CityLayer {
           'layout': {},
           'paint': {
             'fill-color': '#fff',
-            'fill-opacity': 0.2
+            'fill-opacity': 0.1
             }
-        });
+        },this.parent);
       }
     };
   

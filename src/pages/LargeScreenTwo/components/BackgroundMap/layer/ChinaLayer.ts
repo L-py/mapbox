@@ -23,7 +23,7 @@ class ChinaLayer {
           'layout': {},
           'paint': {
             'fill-color': '#001fe6',
-            'fill-opacity': 0.3
+            'fill-opacity': 0.1
             }
         });
       }

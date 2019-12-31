@@ -21,15 +21,15 @@ class ProNumComponent extends Component<Props> {
       <div className={styles.container}>
         <div className={styles.proNums}>
             <div className={styles.nums}>
-              <div className={styles.num}>{totalData.length>0 && totalData[0].proTotal?totalData[0].proTotal:0}</div>
+              <div className={styles.num}>{totalData && totalData.proTotal?totalData.proTotal:0}</div>
               <div className={styles.text}>总项目数</div>
             </div>
             <div className={styles.nums2}>
-              <div className={styles.num}>{totalData.length>0 && totalData[0].proDeviceTotal?totalData[0].proDeviceTotal:0}</div>
+              <div className={styles.num}>{totalData && totalData.proDeviceTotal?totalData.proDeviceTotal:0}</div>
               <div className={styles.text}>总设备数</div>
             </div>
             <div className={styles.nums2}>
-              <div className={styles.num}>{totalData.length>0 && totalData[0].proAlarmTotal?totalData[0].proAlarmTotal:0}</div>
+              <div className={styles.num}>{totalData && totalData.proAlarmTotal?totalData.proAlarmTotal:0}</div>
               <div className={styles.text}>总告警数</div>
             </div>
         </div>

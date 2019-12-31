@@ -9,7 +9,11 @@ import { indexState } from './models/index';
 interface Props extends FormComponentProps {
   dispatch: (args: AnyAction) => void,
   index: indexState,
-  submitting: boolean
+  submitting: boolean,
+  changeBounds: void,
+  changeParams: void,
+  devType: string,
+  devStatue: boolean,
 }
 
 @connect(({ index, loading }: {
@@ -24,8 +28,9 @@ interface Props extends FormComponentProps {
   submitting: loading.effects[''],
 }))
 class MapPage extends Component<Props> {
- 
-
+  state = {
+    areaCode:'',
+  }
   componentDidMount(): void {
     const { dispatch } = this.props;
     dispatch({
@@ -35,13 +40,18 @@ class MapPage extends Component<Props> {
   }
 
   fetchProjectInfo = (code:any,level:string) => {
-    const { dispatch } = this.props;
+    const { dispatch, changeParams }:any = this.props;
     let params = {};
+    this.setState({
+      areaCode: code
+    })
     if(level==='province'){
+      // params = {provId:code,leftLowerlat:'',leftLowerlot:'',leftUpperLat:'',leftUpperLot:'',rightLowerlat:'',rightLowerlot:'',rightUpperLot:'',rightUpperlat:'',}
       params = {provId:code}
     }else if(level==='city'){
       params = {cityId:code}
     }
+    changeParams(params);
     dispatch({
         type: 'index/fetchProPointData',
         payload: {fetchData:params,fetchAll:false}
@@ -49,14 +59,17 @@ class MapPage extends Component<Props> {
   }
 
   render() {
-    const { index } = this.props;
-    const { proPointAllData } = index;
+    const { index, changeBounds, devType, devStatue } = this.props;
+    const { proPointAllData, moDevPointData, proPointData } = index;
+    const { areaCode } = this.state;
+    console.log(moDevPointData);
     const motheds = {
-        fetchProjectInfo: this.fetchProjectInfo
+        fetchProjectInfo: this.fetchProjectInfo,
     }
     return (
         <div>
-          <BackgroundComponentMap {...motheds} proPointAllData={proPointAllData}/>
+          <BackgroundComponentMap {...motheds} proPointAllData={proPointAllData} proPointData={proPointData} areaCode={areaCode}
+          moDevPointData={moDevPointData} changeBounds={changeBounds} devType={devType} devStatue={devStatue}/>
         </div>
     );
   }

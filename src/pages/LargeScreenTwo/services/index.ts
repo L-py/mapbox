@@ -28,6 +28,12 @@ export async function queryProTypeStatis(params: any): Promise<any> {
 export async function queryProSum(params: any): Promise<any> {
   return request('/server/api/vgis/proHomePage/proSum', { params });
 }
+
+//获取属性信息？？
+export async function queryAttr(params: any): Promise<any> {
+  return request('/server/api/vgis/device/getColleDeviceAttr', { params });
+}
+//  /api/ai/aiIndex/picList  /api/vgis/proHomePage/proSum   /api/ai/aiIndex/alarmList   /api/vgis/device/getColleDeviceAttr
 //总量统计。总项目数，总设备数...
 export async function queryTotalStatis(params: any): Promise<any> {
   return request('/server/api/vgis/proHomePage/totalStatis', { params });
@@ -40,5 +46,8 @@ export async function queryMonitorDevNumber(params: any): Promise<any> {
 export async function queryProPointData(params: any): Promise<any> {
   return request('/server/api/vgis/proHomePage/proPointData', { params });
 }
-
+//获取设备撒点信息
+export async function queryMondevicePointData(params: any): Promise<any> {
+  return request('/server/api/vgis/proHomePage/mondevicePointData', { params });
+}
 

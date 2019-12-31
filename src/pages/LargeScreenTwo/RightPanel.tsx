@@ -14,7 +14,10 @@ import { indexState } from './models/index';
 interface Props extends FormComponentProps {
   dispatch: (args: AnyAction) => void,
   index: indexState,
-  submitting: boolean
+  submitting: boolean,
+  boundNe: {},
+  boundSw: {},
+  changeDevType: void,
 }
 
 @connect(({ index, loading }: {
@@ -29,7 +32,9 @@ interface Props extends FormComponentProps {
   submitting: loading.effects[''],
 }))
 class RightPanelPage extends Component<Props> {
-
+  state = {
+    allStatus: false,
+  }
   componentDidMount(): void {
     const { dispatch } = this.props;
     dispatch({
@@ -47,10 +52,45 @@ class RightPanelPage extends Component<Props> {
   }
 
 
+  onSelect = (type:string,status:boolean) => {
+    const { dispatch, boundNe, boundSw, changeDevType }:any = this.props;
+    changeDevType(type,status);
+    const typeValue = type=='all'?{}:{monDevCategory:type};
+    const params = {
+      ...typeValue,
+      leftLowerlat:boundSw.lat,
+      leftLowerlot:boundSw.lng,
+      leftUpperLat:boundNe.lat,
+      leftUpperLot:boundSw.lng,
+      rightLowerlat:boundSw.lat,
+      rightLowerlot:boundNe.lng,
+      rightUpperLot:boundNe.lng,
+      rightUpperlat:boundNe.lat,
+    }
+    console.log(params);
+    dispatch({
+      type: 'index/fetchMondevicePointData',
+      payload: params
+    });
+  }
+
+  changeSwitchStatus = (status:boolean) => {
+    this.onSelect('01',!status);
+    this.onSelect('02',!status);
+    this.onSelect('03',!status);
+    this.onSelect('04',!status);
+    this.setState({
+      allStatus: !status,
+    })
+  }
+  
   render() {
     const { index } = this.props;
     const { conData,  monData, proTypeData, monDevData }:any = index;
-  
+    const { allStatus } = this.state;
+    const motheds = {
+      onSelect: this.onSelect,
+    }
     return (
         <div className={styles.content2}>
           <div className={styles.alarmLevel3}>
@@ -90,12 +130,13 @@ class RightPanelPage extends Component<Props> {
             <div className={styles.modileTitle}>
               <label>地图撒点控制</label>
               <Switch
-                defaultChecked
+                checked = {allStatus}
+                onClick = {() => this.changeSwitchStatus(allStatus)} 
                 style={{ marginLeft: 160, marginTop: 10, width: 50 }}
                 size={'small'}
               />
             </div>
-            <MapPointPage monDevData={monDevData}/>
+            <MapPointPage monDevData={monDevData} {...motheds} allStatus={allStatus}/>
           </div>
         </div>
     );

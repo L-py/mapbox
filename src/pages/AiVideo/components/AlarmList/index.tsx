@@ -1,17 +1,24 @@
 import React, { Component } from 'react';
 import { Divider } from 'antd';
 import styles from './index.less';
+import { FormComponentProps } from 'antd/es/form';
+const url = require('url');
 
-class AlarmListComponent extends Component {
+interface Props extends FormComponentProps {
+  alarmListData:{},
+}
+class AlarmListComponent extends Component<Props> {
+
+  componentWillmount(): void {
+   
+  }
 
   componentDidMount(): void {
    
   }
 
-  componentWillUnmount(): void {
-  }
-
   render() {
+    const { alarmListData }:any = this.props
     return (
       <div className={styles.container}>
         <div className={styles.header}>
@@ -24,24 +31,21 @@ class AlarmListComponent extends Component {
             <Divider type="vertical" />
             <a>全部</a>
         </div>
-        <div className={styles.alarmInfos}>
-            <div className={styles.infos}>
-                <div className={styles.imageI}></div>
-                <div style={{width:480,transform:'scale(0.6)',transformOrigin:'top left',margin:'6px 5px'}}>万达广场01号枪机&nbsp;&nbsp;&nbsp;&nbsp;2019-11-17 12:25:00</div>
-                <div style={{transform:'scale(0.7)',transformOrigin:'top left',margin:'-12px 5px'}}>安全帽识别告警</div>
+        {
+          alarmListData && alarmListData.rows.length>0?
+            <div className={styles.alarmInfos}>
+                {
+                  alarmListData.rows.map((item:any) => (
+                    <div className={styles.infos}>
+                        <div className={styles.imageI}><img alt="" style={{width:'100%'}} src={url.resolve(item.alarmImages?item.alarmImages:'','')} /></div>
+                        <div style={{width:480,transform:'scale(0.6)',transformOrigin:'top left',margin:'6px 5px'}}>{item.alarmCategory}&nbsp;&nbsp;&nbsp;&nbsp;{item.alarmDate}</div>
+                        <div style={{transform:'scale(0.7)',transformOrigin:'top left',margin:'-12px 5px'}}>{item.alarmInfo}</div>
+                    </div>
+                  ))
+                }
             </div>
-            <div className={styles.infos}>
-                <div className={styles.imageI}></div>
-                <div style={{width:480,transform:'scale(0.6)',transformOrigin:'top left',margin:'6px 5px'}}>万达广场01号枪机&nbsp;&nbsp;&nbsp;&nbsp;2019-11-17 12:25:00</div>
-                <div style={{transform:'scale(0.7)',transformOrigin:'top left',margin:'-12px 5px'}}>安全帽识别告警</div>
-            </div>
-            <div className={styles.infos}>
-                <div className={styles.imageI}></div>
-                <div style={{width:480,transform:'scale(0.6)',transformOrigin:'top left',margin:'6px 5px'}}>万达广场01号枪机&nbsp;&nbsp;&nbsp;&nbsp;2019-11-17 12:25:00</div>
-                <div style={{transform:'scale(0.7)',transformOrigin:'top left',margin:'-12px 5px'}}>安全帽识别告警</div>
-            </div>
-        </div>
-      </div>
+        :null}
+      </div> 
     );
   }
 }

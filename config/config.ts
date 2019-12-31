@@ -87,39 +87,36 @@ export default {
         },
       ],
     },
+    // {
+    //   path: '/',
+    //   component: '../layouts/BlankLayout',
+    //   routes: [
+    //     { name: 'large', path: '/large', component: './LargeScreenTwo/Index' },
+    //     { name: 'aiVideo', path: '/aiVideo', component: './AiVideo/Index' }
+    //   ],
+    // },
     {
       path: '/',
       component: '../layouts/BlankLayout',
       routes: [
-        { name: 'large2', path: '/large2', component: './LargeScreenTwo/Index' },
-        { name: 'aiVideo', path: '/aiVideo', component: './AiVideo/Index' }
-      ],
-    },
-    {
-      path: '/',
-      component: '../layouts/SecurityLayout',
-      routes: [
         {
           path: '/',
-          component: '../layouts/BasicLayout',
+          component: '../layouts/BlankLayout',
           authority: ['admin', 'user'],
           routes: [
             {
               path: '/',
-              redirect: '/welcome',
+              redirect: '/large',
             },
             {
-              path: '/welcome',
-              name: 'welcome',
-              icon: 'smile',
-              component: './Welcome',
+              path: '/large',
+              name: 'large',
+              component: './LargeScreenTwo/Index',
             },
             {
-              path: '/admin',
-              name: 'admin',
-              icon: 'crown',
-              component: './Admin',
-              authority: ['admin'],
+              path: '/aiVideo',
+              name: 'aiVideo',
+              component: './AiVideo/Index',
             },
             {
               component: './404',
@@ -131,6 +128,42 @@ export default {
         },
       ],
     },
+    // {
+    //   path: '/',
+    //   component: '../layouts/SecurityLayout',
+    //   routes: [
+    //     {
+    //       path: '/',
+    //       component: '../layouts/BasicLayout',
+    //       authority: ['admin', 'user'],
+    //       routes: [
+    //         {
+    //           path: '/',
+    //           redirect: '/welcome',
+    //         },
+    //         {
+    //           path: '/welcome',
+    //           name: 'welcome',
+    //           icon: 'smile',
+    //           component: './Welcome',
+    //         },
+    //         {
+    //           path: '/admin',
+    //           name: 'admin',
+    //           icon: 'crown',
+    //           component: './Admin',
+    //           authority: ['admin'],
+    //         },
+    //         {
+    //           component: './404',
+    //         },
+    //       ],
+    //     },
+    //     {
+    //       component: './404',
+    //     },
+    //   ],
+    // },
 
     {
       component: './404',

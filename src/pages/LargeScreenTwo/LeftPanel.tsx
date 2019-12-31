@@ -17,6 +17,7 @@ interface Props extends FormComponentProps {
   dispatch: (args: AnyAction) => void,
   index: indexState,
   submitting: boolean
+  changeDataType: void,
 }
 
 @connect(({ index, loading }: {
@@ -32,11 +33,11 @@ interface Props extends FormComponentProps {
 }))
 class LeftPanelPage extends Component<Props> {
   state = {
-    yearStatusL: false,
+    yearStatusL: true,
     monthStatusL: false,
-    yearStatusT: false,
+    yearStatusT: true,
     monthStatusT: false,
-    yearStatusA: false,
+    yearStatusA: true,
     monthStatusA: false,
   };
 
@@ -44,15 +45,15 @@ class LeftPanelPage extends Component<Props> {
     const { dispatch } = this.props;
     dispatch({
       type: 'index/initAlarmLevelStati',
-      payload: {dataType:'0'}
+      payload: {dateType:'0'}
     });
     dispatch({
       type: 'index/initAlarmTotalStati',
-      payload: {dataType:'0'}
+      payload: {dateType:'0'}
     });
     dispatch({
       type: 'index/initAlarmRegionStati',
-      payload: {dataType:'0'}
+      payload: {dateType:'0'}
     });
     dispatch({
       type: 'index/initProSum',
@@ -60,43 +61,58 @@ class LeftPanelPage extends Component<Props> {
     dispatch({
       type: 'index/initTotalStati',
     });
+    // dispatch({
+    //   type: 'index/fetchAttr',
+    //   payload: {monDevIdent:'002'}
+    // });
+    
   }
 
   changeStatus = (type: string, time: string, bol: boolean, bol2: boolean) => {
+    const { changeDataType }:any = this.props;
     if (type == 'level') {
+      changeDataType('level',time == 'month'?'1':'0');
       if (time == 'month') {
         this.setState({
           monthStatusL: !bol,
           yearStatusL: bol2 ? false : false,
+          dataTypeL: '1',
         });
       } else {
         this.setState({
           yearStatusL: !bol,
           monthStatusL: bol2 ? false : false,
+          dataTypeL: '0',
         });
       }
-    } else if (type == 'totil') {
+    } else if (type == 'total') {
+      changeDataType('total',time == 'month'?'1':'0');
       if (time == 'month') {
         this.setState({
           monthStatusT: !bol,
           yearStatusT: bol2 ? false : false,
+          dataTypeT: '1',
         });
       } else {
         this.setState({
           yearStatusT: !bol,
           monthStatusT: bol2 ? false : false,
+          dataTypeT: '0',
         });
       }
     } else {
+      changeDataType('area',time == 'month'?'1':'0');
       if (time == 'month') {
         this.setState({
           monthStatusA: !bol,
           yearStatusA: bol2 ? false : false,
+          dataTypeA: '1',
         });
       } else {
         this.setState({
           yearStatusA: !bol,
           monthStatusA: bol2 ? false : false,
+          dataTypeA: '0',
         });
       }
     }
@@ -132,7 +148,7 @@ class LeftPanelPage extends Component<Props> {
               >
                 <img
                   alt=""
-                  style={{ width: 30, height: 30, marginLeft: 5 }}
+                  style={{ width: 35, height: 30, marginLeft: 5 }}
                   src={require(!monthStatusL
                     ? './images/monthSelOff.png'
                     : './images/monthSelOn.png')}
@@ -144,7 +160,7 @@ class LeftPanelPage extends Component<Props> {
               >
                 <img
                   alt=""
-                  style={{ width: 30, height: 30, marginLeft: 5 }}
+                  style={{ width: 35, height: 30, marginLeft: 5 }}
                   src={require(!yearStatusL ? './images/yearSelOff.png' : './images/yearSelOn.png')}
                 />
               </div>
@@ -161,11 +177,11 @@ class LeftPanelPage extends Component<Props> {
               <span>告警总量趋势</span>
               <div
                 className={styles.timeIcon}
-                onClick={() => this.changeStatus('totil', 'month', monthStatusT, yearStatusT)}
+                onClick={() => this.changeStatus('total', 'month', monthStatusT, yearStatusT)}
               >
                 <img
                   alt=""
-                  style={{ width: 30, height: 30, marginLeft: 5 }}
+                  style={{ width: 35, height: 30, marginLeft: 5 }}
                   src={require(!monthStatusT
                     ? './images/monthSelOff.png'
                     : './images/monthSelOn.png')}
@@ -173,11 +189,11 @@ class LeftPanelPage extends Component<Props> {
               </div>
               <div
                 className={styles.timeIcon2}
-                onClick={() => this.changeStatus('totil', 'year', yearStatusT, monthStatusT)}
+                onClick={() => this.changeStatus('total', 'year', yearStatusT, monthStatusT)}
               >
                 <img
                   alt=""
-                  style={{ width: 30, height: 30, marginLeft: 5 }}
+                  style={{ width: 35, height: 30, marginLeft: 5 }}
                   src={require(!yearStatusT ? './images/yearSelOff.png' : './images/yearSelOn.png')}
                 />
               </div>
@@ -198,7 +214,7 @@ class LeftPanelPage extends Component<Props> {
               >
                 <img
                   alt=""
-                  style={{ width: 30, height: 30, marginLeft: 5 }}
+                  style={{ width: 35, height: 30, marginLeft: 5 }}
                   src={require(!monthStatusA
                     ? './images/monthSelOff.png'
                     : './images/monthSelOn.png')}
@@ -210,7 +226,7 @@ class LeftPanelPage extends Component<Props> {
               >
                 <img
                   alt=""
-                  style={{ width: 30, height: 30, marginLeft: 5 }}
+                  style={{ width: 35, height: 30, marginLeft: 5 }}
                   src={require(!yearStatusA ? './images/yearSelOff.png' : './images/yearSelOn.png')}
                 />
               </div>

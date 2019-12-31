@@ -2,11 +2,12 @@
 import mapboxgl from 'mapbox-gl';
 
 class MarkerPointLayer {
-  constructor(map, data, layername, sourceName) {
+  constructor(map, data, layername, sourceName, code) {
     this.map = map;
     this.data = data;
     this.layername = layername;
     this.sourceName = sourceName;
+    this.code = code;
   }
 
   addLayer = () => {
@@ -16,10 +17,12 @@ class MarkerPointLayer {
       if (!this.map.hasImage('cluster')) {
         this.map.addImage('cluster', image);
       }
-      this.map.addSource(this.sourceName, {
-        'type': 'geojson',
-        'data': this.data
-      })
+      if(!this.map.getSource(this.sourceName)){
+        this.map.addSource(this.sourceName, {
+          'type': 'geojson',
+          'data': this.data
+        })
+      }
       if (!this.map.getLayer(this.layername)){
         this.map.addLayer({
           id: this.layername,
@@ -32,7 +35,7 @@ class MarkerPointLayer {
             'icon-size': 1,
             'icon-offset': [0, -15],
           },
-        });
+        },this.code);
       }
     });
   };

@@ -81,24 +81,39 @@ class ALarmConfirmationChart extends Component<Props> {
         {
           name: '已确认',
           type: 'bar',
-          barWidth: '60%',
+          barWidth: '16%',
           stack: '确认情况',
           data: onCon,
           itemStyle: {
+            // normal: {
+            //   color: '#4860ff',
+            // },
             normal: {
-              color: '#4860ff',
+              color: new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                      {offset: 0, color: '#0ae8ff'},
+                      {offset: 1, color: '#4860ff'}
+                  ]
+              )
             },
           },
         },
         {
           name: '未确认',
           type: 'bar',
-          barWidth: '60%',
+          barWidth: '16%',
           stack: '确认情况',
           data: unCon,
           itemStyle: {
             normal: {
-              color: '#0ae8ff',
+              color: new echarts.graphic.LinearGradient(
+                  0, 0, 0, 1,
+                  [
+                      {offset: 0, color: '#6decf9'},
+                      {offset: 1, color: '#0ae8ff'}
+                  ]
+              )
             },
           },
         },

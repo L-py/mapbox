@@ -16,7 +16,6 @@ class ALarmAreaChart extends Component<Props> {
   }
   componentWillReceiveProps(nextProps:  any) {
     const { regData } = nextProps;
-    console.log(regData);
     if(regData && regData.length>0){
       this.initLineChart(regData);
     }

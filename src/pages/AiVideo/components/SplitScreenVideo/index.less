@@ -1,24 +1,24 @@
 .container {
     width:700px;
-    height:394px;
+    height:404px;
     margin:19px 18px;
     background:rgba(6,7,107,0.2);
     border:1px solid rgba(55, 85, 218, 0.3);
+    position: absolute;
     .header{
       position: absolute;
       width:283px;
       height:21px;
-      margin: 11px 12px;
       display: flex;
-      border:1px solid rgba(40,69,251,1);
-      background:linear-gradient(0deg,rgba(3,14,106,1) 0%,rgba(4,16,131,1) 100%); 
+      background:url('../../images/videoHeader.png'); 
+      background-size: 300px 21px;
+      pointer-events: auto;
       .headerInfo{
         width:235px;
         height:11px;
-        margin-left: 30px;
-        margin-top: -2px;
-        font-size:10px;
+        margin-left: 10px;
         font-family:Microsoft YaHei;
+        transform: scale(0.75);
         font-weight:bold;
         color:rgba(0,150,255,1);
       }
@@ -30,21 +30,25 @@
       margin-right: 20px;
       margin-top: 5px;
       display: flex;
+      cursor: pointer;
       .con1{
         width:17px;
         height:12px;
-        background-color: #8696B5;
+        background:url('../../images/one.png'); 
+        background-size: 17px 12px;
       }
       .con2{
         width:17px;
         height:12px;
-        background-color: #8696B5;
+        background:url('../../images/four.png'); 
+        background-size: 17px 12px;
         margin-left: 5px;
       }
       .con3{
         width:17px;
         height:12px;
-        background-color: #8696B5;
+        background:url('../../images/six.png'); 
+        background-size: 17px 12px;
         margin-left: 5px;
       }
     }
@@ -53,6 +57,62 @@
       height:357px;
       margin: 23px 22px;
       background-color: #8696B5;
+    }
+    .video4{
+      width:657px;
+      height:357px;
+      margin-left: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: flex-start;
+      .v1{
+        width:310px;
+        height:170px;
+        margin: 8px 8px;
+        background-color: #8696B5;
+      }
+    }
+    .video6{
+      width:657px;
+      height:357px;
+      margin-left: 20px;
+      display: flex;
+      flex-wrap: wrap;
+      flex-direction: row;
+      justify-content: flex-start;
+      .v1{
+        width:420px;
+        height:230px;
+        background-color: #8696B5;
+      }
+      .v2{
+        width:210px;
+        height:115px;
+        margin-left: 20px;
+        background-color: #8696B5;
+      }
+      .v3{
+        width:210px;
+        height:115px;
+        margin-top: 20px;
+        background-color: #8696B5;
+      }
+      .v4{
+        width:210px;
+        height:115px;
+        margin-top: 20px;
+        margin-left: 10px;
+        background-color: #8696B5;
+      }
+      .v5{
+        position: absolute;
+        width:210px;
+        height:115px;
+        margin-left: 440px;
+        margin-top: 125px;
+        background-color: #8696B5;
+      }
     }
 }
   

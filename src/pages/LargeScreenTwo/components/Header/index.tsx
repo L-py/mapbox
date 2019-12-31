@@ -27,7 +27,15 @@ class HeaderComponent extends Component {
       <div className={styles.container}>
         <div className={styles.header}>
           <div className={styles.times}>{currentTime}</div>
-          <div className={styles.search}></div>
+          <div className={styles.search}>
+              <img
+                alt=""
+                style={{ width: 20, height: 20, marginTop: 8, marginLeft: 10 }}
+                src={require('../../images/search.png')}
+              />
+              <div className={styles.info}>请输入项目</div>
+              <div className={styles.sear}>搜索</div>
+          </div>
         </div>
       </div>
     );

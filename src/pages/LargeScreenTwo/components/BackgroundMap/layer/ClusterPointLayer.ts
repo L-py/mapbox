@@ -8,13 +8,15 @@ class ClusterPointLayer {
   }
 
   addLayer = () => {
-    this.map.addSource(this.sourceName, {
-      type: 'geojson',
-      data: this.data,
-      cluster: true,
-      clusterMaxZoom: 14, // Max zoom to cluster points on
-      clusterRadius: 50, // Radius of each cluster when clustering points (defaults to 50)
-    })
+    if(!this.map.getSource(this.sourceName)){
+      this.map.addSource(this.sourceName, {
+        type: 'geojson',
+        data: this.data,
+        cluster: true,
+        clusterMaxZoom: 14, // Max zoom to cluster points on
+        clusterRadius: 45, // Radius of each cluster when clustering points (defaults to 50)
+      })
+    }
     if (!this.map.getLayer(this.layername)){
       this.map.addLayer({
         id: this.layername,
@@ -49,10 +51,12 @@ class ClusterPointLayer {
         if (!this.map.hasImage('cluster2')) {
           this.map.addImage('cluster2', image);
         }
-        this.map.addSource(`${this.sourceName}-count`, {
-          type: 'geojson',
-          data: this.data,
-        })
+        if(!this.map.getSource(`${this.sourceName}-count`)){
+          this.map.addSource(`${this.sourceName}-count`, {
+            type: 'geojson',
+            data: this.data,
+          })
+        }
         const name = this.layername;
         if (!this.map.getLayer(`${this.layername}-count`)){
           this.map.addLayer({
@@ -64,7 +68,10 @@ class ClusterPointLayer {
             filter: ['has', 'point_count'],
             layout: {
               'text-field': '{point_count_abbreviated}',
-              'text-size': 25,
+              "text-font": [
+                "Open Sans Semibold"
+              ],
+              'text-size': 28,
               'icon-image': 'cluster2',
               'icon-size': 1,
             },

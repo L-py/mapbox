@@ -128,21 +128,30 @@ body {
   span {
     margin-left: 6px;
   }
+  :global{
+    .ant-switch{
+        background-color: rgba(115,247,247,0.3);
+    }
+    .ant-switch.ant-switch-checked{
+        background-color:#1890FF;
+    }
+  }
 }
 
 .container {
   width: 1920px;
   height: 1080px;
-  transform: scale(1);
+  transform: scale(1,1);
   transform-origin: top left;
   position: relative;
   .backGrounds {
     position: absolute;
     pointer-events: none;
-    width: 1920px;
-    height: 1080px;
+    width: 100%;
+    height: 100%;
     z-index: 2;
-    background: url(./images/bg2.png) no-repeat;
+    background: url(./images/bg66.png) no-repeat;
+    background-size: cover;
   }
   .content1 {
     position: absolute;
