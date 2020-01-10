@@ -71,28 +71,21 @@ if (isAntDesignProPreview) {
 export default {
   plugins,
   hash: true,
+  // history: 'hash',
   targets: {
     ie: 11,
   },
   // umi routes: https://umijs.org/zh/guide/router.html
   routes: [
-    {
-      path: '/user',
-      component: '../layouts/UserLayout',
-      routes: [
-        {
-          name: 'login',
-          path: '/user/login',
-          component: './user/login',
-        },
-      ],
-    },
     // {
-    //   path: '/',
-    //   component: '../layouts/BlankLayout',
+    //   path: '/user',
+    //   component: '../layouts/UserLayout',
     //   routes: [
-    //     { name: 'large', path: '/large', component: './LargeScreenTwo/Index' },
-    //     { name: 'aiVideo', path: '/aiVideo', component: './AiVideo/Index' }
+    //     {
+    //       name: 'login',
+    //       path: '/user/login',
+    //       component: './user/login',
+    //     },
     //   ],
     // },
     {
@@ -101,27 +94,15 @@ export default {
       routes: [
         {
           path: '/',
-          component: '../layouts/BlankLayout',
-          authority: ['admin', 'user'],
-          routes: [
-            {
-              path: '/',
-              redirect: '/large',
-            },
-            {
-              path: '/large',
-              name: 'large',
-              component: './LargeScreenTwo/Index',
-            },
-            {
-              path: '/aiVideo',
-              name: 'aiVideo',
-              component: './AiVideo/Index',
-            },
-            {
-              component: './404',
-            },
-          ],
+          component: './LargeScreenTwo/Index',
+        },
+        {
+          path: '/large',
+          component: './LargeScreenTwo/Index',
+        },
+        {
+          path: '/aiVideo',
+          component: './AiVideo/Index',
         },
         {
           component: './404',
@@ -164,7 +145,6 @@ export default {
     //     },
     //   ],
     // },
-
     {
       component: './404',
     },
