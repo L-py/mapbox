@@ -40,6 +40,14 @@ class ALarmTotalChart extends Component<Props> {
             color: '#fff', //更改坐标轴文字颜色
           },
         },
+        axisTick: {
+          show: false
+        },
+        axisLine:{
+          lineStyle:{
+            color: '#174382',
+          } 
+        },
       },
       tooltip: {
         trigger: 'item',
@@ -50,15 +58,19 @@ class ALarmTotalChart extends Component<Props> {
         splitLine: {
           show: false,
         },
+        axisTick: {
+          show: false
+        },
         axisLabel: {
           show: true,
           textStyle: {
             color: 'rgb(255,255,255,0.3)', //更改坐标轴文字颜色
+            
           },
         },
         axisLine:{
           lineStyle:{
-            color:'#fff'
+            color: '#174382',
           } 
         },
       },

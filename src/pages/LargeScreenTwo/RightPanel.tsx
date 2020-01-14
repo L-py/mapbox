@@ -67,7 +67,6 @@ class RightPanelPage extends Component<Props> {
       rightUpperLot:boundNe.lng,
       rightUpperlat:boundNe.lat,
     }
-    console.log(params);
     dispatch({
       type: 'index/fetchMondevicePointData',
       payload: params

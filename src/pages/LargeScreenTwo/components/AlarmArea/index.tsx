@@ -16,7 +16,6 @@ class ALarmAreaChart extends Component<Props> {
   }
   componentWillReceiveProps(nextProps:  any) {
     const { regData } = nextProps;
-    console.log(regData);
     if(regData && regData.length>0){
       this.initLineChart(regData);
     }
@@ -101,11 +100,22 @@ class ALarmAreaChart extends Component<Props> {
             color: '#fff', //更改坐标轴文字颜色
           },
         },
+        axisTick: {
+          show: false
+        },
+        axisLine:{
+          lineStyle:{
+            color: '#174382',
+          } 
+        },
       },
       yAxis: {
         type: 'value',
         splitLine: {
           show: false,
+        },
+        axisTick: {
+          show: false
         },
         axisLabel: {
           show: true,
@@ -115,7 +125,7 @@ class ALarmAreaChart extends Component<Props> {
         },
         axisLine:{
           lineStyle:{
-            color:'#fff'
+            color: '#174382',
           } 
         },
       },

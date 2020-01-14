@@ -50,10 +50,9 @@ class BackgroundComponentMap extends Component<Props> {
     //   'pk.eyJ1IjoibHB5MjIyNjY2IiwiYSI6ImNrMzZxNnUzMjA0MmMzb21wMTMycGlwdDEifQ.gJ4NtkLjt4fmvFky4uJDLA';
     this.mapbox = new mapboxgl.Map({
       style: styleJson,
-      center: [104.93, 37.27], //地图中心经纬度
-      // center: [109.93, 34.27],
-      // center: [113.22332296629585,22.7491244227423],
-      zoom: 4, //缩放级别
+      center: [100.03,39.27], //地图中心经纬度
+      // center: [106.504962,29.533155],
+      zoom:3.5, //缩放级别
       minZoom: 1,
       source: 'localhost:8088',
       interactive: true,
@@ -68,15 +67,13 @@ class BackgroundComponentMap extends Component<Props> {
   componentWillReceiveProps(nextProps:  any) {
     const { moDevPointData,devType,devStatue,proPointData,areaCode }:any = nextProps;
     const { level,defCityCode,defProCode } = this.state;
-    console.log(level);
+    console.log(moDevPointData);
     if(areaCode!=''){
-      console.log(proPointData);
       // if(level == 1){
         this.addPointLayer(this.mapbox,proPointData,areaCode);
         this.addMakerLayer(this.mapbox,proPointData,areaCode);
       // }
       if(level == 2){
-        console.log(111)
         this.setVisible(this.mapbox,'maine');
         // this.setVisible(this.mapbox,`city_${defCityCode}`);
         // this.setVisible(this.mapbox,`province_${defProCode}`);
@@ -86,7 +83,6 @@ class BackgroundComponentMap extends Component<Props> {
       }
     }
     if(devStatue){
-      console.log(devStatue);
       if(devType=='01'){
           this.addVideoLayer(this.mapbox,moDevPointData);
       }else if(devType=='02'){
@@ -115,12 +111,12 @@ class BackgroundComponentMap extends Component<Props> {
       // this.addScenorLayer(mapbox);
       // this.addVideoLayer(mapbox);
       this.addMainLayer(mapbox);
-      console.log( mapbox.querySourceFeatures("openmaptiles", {
-        sourceLayer: 'place',
-      }))
+      // console.log( mapbox.querySourceFeatures("openmaptiles", {
+      //   sourceLayer: 'place',
+      // }))
       mapbox.on('click', (e) => {
-        console.log( mapbox.getBounds());
-        console.log(e)
+        // console.log( mapbox.getBounds());
+        // console.log(e)
       })
       mapbox.on('moveend', () => {
         console.log(mapbox.getZoom())
@@ -133,7 +129,7 @@ class BackgroundComponentMap extends Component<Props> {
             mapbox.setLayoutProperty('maine', 'visibility', 'visible')
           }
         }
-        if(mapbox.getZoom()<3.6){
+        if(mapbox.getZoom()<3.5){
           changeParams({});
         }
         changeBounds(mapbox.getBounds()._ne,mapbox.getBounds()._sw);
@@ -166,7 +162,7 @@ class BackgroundComponentMap extends Component<Props> {
     const c1= info.features[0].properties.center.replace('[','').split(',')[0];
     const c2= info.features[0].properties.center.replace(']','').split(',')[1];
     mapbox.setCenter([c1,c2]);
-    mapbox.setZoom(7);
+    mapbox.setZoom(6);
     const proJson = require(`../../json/data/province/${code}.json`);
     const prolayer = new ProvinceLayer(mapbox,proJson,`province_${code}`,`proSource_${code}`);
     if (!mapbox.getLayer(`province_${code}`)) {
@@ -227,7 +223,6 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addAreaLayer = (mapbox:any,info:any) => {
-    console.log(info.features[0].properties);
     if(info.features[0].properties){
       const c1= info.features[0].properties.center.replace('[','').split(',')[0];
       const c2= info.features[0].properties.center.replace(']','').split(',')[1];
@@ -260,7 +255,6 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addPointLayer = (mapbox:any,pointData:any,code:string) => {
-    console.log(code);
     //项目点聚合
     const pointlayer = new ClusterPointLayer(mapbox, pointData, `pointCluster_${code}`, true, `pointClusterSource_${code}` );
      pointlayer.addLayer();
@@ -275,7 +269,6 @@ class BackgroundComponentMap extends Component<Props> {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
     mapbox.on('click', `proMaker_${code}`, function(e) {
-      console.log(e.features[0].properties);
       const proInfo = e.features[0].properties.proName;
       const infos = `<div style="height:80px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
         <div style="width:150px;margin:10px 10px;text-align:center;">${proInfo}</div>
@@ -305,7 +298,6 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addVideoLayer = (mapbox:any,data:any) => {
-    console.log(data);
     //摄像头点
     const videolayer = new VideoPointLayer(mapbox, data, 'video', 'videoSource');
     videolayer.addLayer();
@@ -313,7 +305,7 @@ class BackgroundComponentMap extends Component<Props> {
     mapbox.on('mouseenter', 'video', function() {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
-    mapbox.on('click', 'video', function(e) {
+    mapbox.on('click', 'video', function(e:any) {
       console.log(e.features[0].geometry.coordinates);
       const infos = `<div style="height:250px;width:340px;display:flex;flex-warp:warp;flex-direction:row;background:url(${require('../../images/videoInfo.png')}) no-repeat;background-size:340px 250px;">
         <div style="width:150px;margin:5px 5px;text-align:center;">监控点名称</div>
@@ -322,11 +314,13 @@ class BackgroundComponentMap extends Component<Props> {
         </div>
       </div>`;
       var coordinates = e.features[0].geometry.coordinates.slice();
-      console.log(coordinates);
       new mapboxgl.Popup({ offset: [50,-40] ,closeButton:false,})
         .setLngLat(coordinates)
         .setHTML(infos)
         .addTo(mapbox);
+      return false;
+      // e.addEventListener('click',(e) => {e.stopPropagation()}, false);
+      // e.stopPropagation();
       // if(flvjs.isSupported()){
       //   var videoElement = document.getElementById('videoElement');
       //   var flvPlayer = flvjs.createPlayer({
@@ -347,7 +341,6 @@ class BackgroundComponentMap extends Component<Props> {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
     mapbox.on('click', 'scenor', function(e) {
-      console.log(e.features[0].geometry.coordinates);
       const proInfo = e.features[0].properties.proName;
       const infos = `<div style="height:240px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
         <div style="width:150px;margin:10px 10px;text-align:center;">${proInfo}</div>

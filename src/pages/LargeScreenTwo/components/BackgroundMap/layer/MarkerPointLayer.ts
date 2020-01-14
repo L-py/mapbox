@@ -13,7 +13,6 @@ class MarkerPointLayer {
   addLayer = () => {
     this.map.loadImage(require('../../../images/proIcon.png'), (error: any, image: any) => {
       if (error) throw error;
-      console.log(image);
       if (!this.map.hasImage('cluster')) {
         this.map.addImage('cluster', image);
       }

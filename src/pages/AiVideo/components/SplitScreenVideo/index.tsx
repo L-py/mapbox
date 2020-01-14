@@ -52,6 +52,7 @@ class SplitScreenVideoComponent extends Component<Props> {
           sources: [
             {
               src: urls[0],
+              // src: 'rtmp://live.hkstv.hk.lxdns.com/live/hks',
               type: "rtmp/flv",  //类型可加可不加，目前未看到影响
               // type: 'video/mp4',
             }

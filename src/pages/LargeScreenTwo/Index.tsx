@@ -126,13 +126,11 @@ class LargeScreenPage extends Component<Props> {
     var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
     const scaleX = clientWidth / 1920;
     const scaleY = clientHeight / 1080;
-    console.log(scaleX)
     document.getElementById('main-container').style.transform = `scale(${scaleX},${scaleY})`;
     document.getElementById('main-container').style.transformOrigin  = 'left top';
     document.getElementById('main-container').style.transition = 'all 0.1s linear';
     const scaX = 1 /scaleX;
     const scaY = 1 /scaleY;
-    console.log(scaX);
     document.getElementById('map').style.transform = `scale(${scaX},${scaY})`;
     document.getElementById('map').style.transformOrigin = 'left top';
     // document.getElementById('backgrond').style.transform = `scale(${scaX})`;

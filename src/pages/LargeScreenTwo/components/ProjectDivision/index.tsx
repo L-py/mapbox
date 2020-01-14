@@ -32,7 +32,7 @@ class ProjectDivisionChart extends Component<Props> {
     myChartL.setOption({
       tooltip: {
         trigger: 'item',
-        formatter: '{a} <br/>{b} : {c} ({d}%)',
+        formatter: '{a} <br/>{b} : {c}',
       },
       xAxis: {
         type: 'category',
@@ -41,11 +41,22 @@ class ProjectDivisionChart extends Component<Props> {
         axisLabel: {
           show: false,
         },
+        axisTick: {
+          show: false
+        },
+        axisLine:{
+          lineStyle:{
+            color: '#174382',
+          } 
+        },
       },
       yAxis: {
         type: 'value',
         splitLine: {
           show: false,
+        },
+        axisTick: {
+          show: false
         },
         axisLabel: {
           show: true,
@@ -55,7 +66,7 @@ class ProjectDivisionChart extends Component<Props> {
         },
         axisLine:{
           lineStyle:{
-            color:'#fff'
+            color: '#174382',
           } 
         },
       },

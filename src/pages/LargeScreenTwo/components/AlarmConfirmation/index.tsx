@@ -53,13 +53,19 @@ class ALarmConfirmationChart extends Component<Props> {
           type: 'category',
           data: xValue,
           axisTick: {
-            alignWithLabel: true,
+            show: false
           },
           axisLabel: {
             show: true,
             textStyle: {
               color: '#fff', //更改坐标轴文字颜色
             },
+          },
+          
+          axisLine:{
+            lineStyle:{
+              color: '#174382',
+            } 
           },
         },
       ],
@@ -69,11 +75,19 @@ class ALarmConfirmationChart extends Component<Props> {
           splitLine: {
             show: false,
           },
+          axisTick: {
+            show: false
+          },
           axisLabel: {
             show: true,
             textStyle: {
               color: '#fff', //更改坐标轴文字颜色
             },
+          },
+          axisLine:{
+            lineStyle:{
+              color: '#174382',
+            } 
           },
         },
       ],

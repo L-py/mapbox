@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import styles from './index.less';
 import { FormComponentProps } from 'antd/es/form';
+const url = require('url');
 
 interface Props extends FormComponentProps{
   playListData: [];
@@ -74,6 +75,7 @@ class VideoListComponent extends Component<Props> {
     const { playListData } = this.props;
     const { current, pageSize, defKey } = this.state;
     let data:any=null;
+    console.log(playListData);
     if(playListData && playListData.length>0){
       data = playListData.slice((current-1)*pageSize,(current-1)*pageSize+pageSize);
     }
@@ -87,7 +89,7 @@ class VideoListComponent extends Component<Props> {
             data.map((item:any) => (
               <div className={styles.video}>
                 <div  className={defKey==item.monitoDevicerId?styles.bg:styles.bg1}>
-                <div className={styles.vid}  onClick={() => this.changeDefKey(item.monitoDevicerId,item.rtmpAddress)}>
+                <div className={styles.vid} style={{background:`url(${url.resolve(item.pic?item.pic:'','')})`,backgroundSize: 'cover'}} onClick={() => this.changeDefKey(item.monitoDevicerId,item.rtmpAddress)}>
                   {item.monitorDeviceName}
                 </div>
                 </div>

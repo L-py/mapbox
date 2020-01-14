@@ -47,8 +47,12 @@ class AiVideoPage extends Component<Props> {
     // },60000);
   }
   componentDidMount(): void {
+    var clientWidth = document.documentElement.clientWidth || document.body.clientWidth;
+    var clientHeight = document.documentElement.clientHeight || document.body.clientHeight;
+    const scaleX = clientWidth / 960;
+    const scaleY = clientHeight / 540;
     const scale = window.innerWidth / 960;
-    document.getElementById('main-container').style.transform = `scale(${scale})`;
+    document.getElementById('main-container').style.transform = `scale(${scaleX},${scaleY})`;
     document.getElementById('root').style.overflow = 'hidden';
   }
 

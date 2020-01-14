@@ -12,7 +12,6 @@ class CarPointLayer {
   addLayer = () => {
     this.map.loadImage(require('../../../images/car.png'), (error: any, image: any) => {
       if (error) throw error;
-      console.log(image);
       if (!this.map.hasImage('car')) {
         this.map.addImage('car', image);
       }

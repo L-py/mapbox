@@ -48,7 +48,7 @@ class MapPage extends Component<Props> {
     if(level==='province'){
       // params = {provId:code,leftLowerlat:'',leftLowerlot:'',leftUpperLat:'',leftUpperLot:'',rightLowerlat:'',rightLowerlot:'',rightUpperLot:'',rightUpperlat:'',}
       params = {provId:code}
-    }else if(level==='city'){
+    }else if(level==='city' || level === 'district'){
       params = {cityId:code}
     }
     changeParams(params);
@@ -62,7 +62,6 @@ class MapPage extends Component<Props> {
     const { index, changeBounds, changeParams, devType, devStatue } = this.props;
     const { proPointAllData, moDevPointData, proPointData } = index;
     const { areaCode } = this.state;
-    console.log(moDevPointData);
     const motheds = {
         fetchProjectInfo: this.fetchProjectInfo,
     }

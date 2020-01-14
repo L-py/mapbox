@@ -41,7 +41,7 @@ class ALarmLevelChart extends Component<Props> {
           name: '告警级别',
           type: 'pie',
           smooth: true,
-          radius: ['55%', '70%'],
+          radius: ['35%', '70%'],
           avoidLabelOverlap: false,
           data:data1,
         },
