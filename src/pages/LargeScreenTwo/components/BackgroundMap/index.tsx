@@ -54,7 +54,7 @@ class BackgroundComponentMap extends Component<Props> {
       // center: [106.504962,29.533155],
       zoom:3.5, //缩放级别
       minZoom: 1,
-      source: 'localhost:8088',
+      source: '192.168.1.111:8088',
       interactive: true,
       maxZoom: 19,
       pitch: 0,
