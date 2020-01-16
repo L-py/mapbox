@@ -84,9 +84,16 @@ class ClusterPointLayer {
   };
 
   removeLayer = () => {
-    this.map.removeLayer(this.layername);
-    this.map.removeSource(this.sourceName);
-    this.map.removeLayer(`${this.layername}-count`);
+    if(this.map.getLayer(this.layername)){
+      this.map.removeLayer(this.layername);
+    }
+    if(this.map.getSource(this.sourceName)){
+      this.map.removeSource(this.sourceName);
+    }
+    if(this.map.getLayer(`${this.layername}-count`)){
+      this.map.removeLayer(`${this.layername}-count`);
+    }
+    
     // this.map.removeSource(`${this.sourceName}-count`);
   };
 }

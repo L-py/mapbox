@@ -15,6 +15,9 @@ export interface indexState {
   proPointAllData: {},
   proPointData: {},
   moDevPointData: {},
+  moDevPointData1: {},
+  moDevPointData2: {},
+  moDevPointData3: {},
   attData: {},
 }
 
@@ -34,6 +37,9 @@ const index: Model = {
       proPointAllData: {},
       proPointData: {},
       moDevPointData: {},
+      moDevPointData1: {},
+      moDevPointData2: {},
+      moDevPointData3: {},
       attData: {},
     },
   
@@ -169,6 +175,39 @@ const index: Model = {
           console.log(e)
         }
       },
+      * fetchMondevicePointData1({ payload }, { call, put }: EffectsCommandMap) {
+        try{
+          const response = yield call(queryMondevicePointData, payload);
+          yield put({
+            type: 'initMondevicePointData1',
+            payload: response,
+          });
+        }catch(e){
+          console.log(e)
+        }
+      },
+      * fetchMondevicePointData2({ payload }, { call, put }: EffectsCommandMap) {
+        try{
+          const response = yield call(queryMondevicePointData, payload);
+          yield put({
+            type: 'initMondevicePointData2',
+            payload: response,
+          });
+        }catch(e){
+          console.log(e)
+        }
+      },
+      * fetchMondevicePointData3({ payload }, { call, put }: EffectsCommandMap) {
+        try{
+          const response = yield call(queryMondevicePointData, payload);
+          yield put({
+            type: 'initMondevicePointData3',
+            payload: response,
+          });
+        }catch(e){
+          console.log(e)
+        }
+      },
       * fetchAttr({ payload }, { call, put }: EffectsCommandMap) {
         try{
           const response = yield call(queryAttr, payload);
@@ -254,6 +293,23 @@ const index: Model = {
           return {
               ...state,
               moDevPointData: payload,
+          };
+        },
+        initMondevicePointData1(state, { payload }: any): [] {
+          return {
+              ...state,
+              moDevPointData1: payload,
+          };
+        },
+        initMondevicePointData2(state, { payload }: any): [] {
+          return {
+              ...state,
+              moDevPointData2: payload,
+          };
+        },initMondevicePointData3(state, { payload }: any): [] {
+          return {
+              ...state,
+              moDevPointData3: payload,
           };
         },
         initAttr(state, { payload }: any): [] {

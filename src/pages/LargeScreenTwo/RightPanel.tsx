@@ -18,6 +18,7 @@ interface Props extends FormComponentProps {
   boundNe: {},
   boundSw: {},
   changeDevType: void,
+  changeOperationType: void,
 }
 
 @connect(({ index, loading }: {
@@ -53,24 +54,25 @@ class RightPanelPage extends Component<Props> {
 
 
   onSelect = (type:string,status:boolean) => {
-    const { dispatch, boundNe, boundSw, changeDevType }:any = this.props;
+    const { dispatch, boundNe, boundSw, changeDevType, changeOperationType }:any = this.props;
     changeDevType(type,status);
-    const typeValue = type=='all'?{}:{monDevCategory:type};
-    const params = {
-      ...typeValue,
-      leftLowerlat:boundSw.lat,
-      leftLowerlot:boundSw.lng,
-      leftUpperLat:boundNe.lat,
-      leftUpperLot:boundSw.lng,
-      rightLowerlat:boundSw.lat,
-      rightLowerlot:boundNe.lng,
-      rightUpperLot:boundNe.lng,
-      rightUpperlat:boundNe.lat,
-    }
-    dispatch({
-      type: 'index/fetchMondevicePointData',
-      payload: params
-    });
+    changeOperationType('2');
+    // const typeValue = type=='all'?{}:{monDevCategory:type};
+    // const params = {
+    //   ...typeValue,
+    //   leftLowerlat:boundSw.lat,
+    //   leftLowerlot:boundSw.lng,
+    //   leftUpperLat:boundNe.lat,
+    //   leftUpperLot:boundSw.lng,
+    //   rightLowerlat:boundSw.lat,
+    //   rightLowerlot:boundNe.lng,
+    //   rightUpperLot:boundNe.lng,
+    //   rightUpperlat:boundNe.lat,
+    // }
+    // dispatch({
+    //   type: 'index/fetchMondevicePointData',
+    //   payload: params
+    // });
   }
 
   changeSwitchStatus = (status:boolean) => {

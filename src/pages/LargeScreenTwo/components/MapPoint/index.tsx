@@ -32,7 +32,6 @@ class MapPointPage extends Component<Props> {
 
   changeStatus = (type:string,status:boolean) => {
     const { onSelect }:any = this.props;
-    
     if(type==='car'){
       onSelect('04',!status);
       this.setState({

@@ -48,7 +48,7 @@ class ALarmLevelChart extends Component<Props> {
       ],
       color: [
         //自定义的颜色
-        '#44245b',
+        '#5259d4',
         '#8c55bc',
         '#aa4174',
         '#4775e9',

@@ -34,14 +34,18 @@ class MarkerPointLayer {
             'icon-size': 1,
             'icon-offset': [0, -15],
           },
-        },this.code);
+        });
       }
     });
   };
 
   removeLayer = () => {
-    this.map.removeLayer(this.layername);
-    this.map.removeSource(this.sourceName);
+    if(this.map.getLayer(this.layername)){
+      this.map.removeLayer(this.layername);
+    }
+    if(this.map.getSource(this.sourceName)){
+      this.map.removeSource(this.sourceName);
+    }
   };
 }
 

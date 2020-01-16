@@ -19,6 +19,7 @@ class VideoListComponent extends Component<Props> {
     current: this.props.current,
     pageSize: this.props.pageSize,
     urls: [],
+    names: [],
   }
 
   componentDidMount(): void {
@@ -45,28 +46,36 @@ class VideoListComponent extends Component<Props> {
     }
   }
 
-  changeDefKey = (key:any,addRess:string) => {
+  changeDefKey = (key:any,addRess:string,deviceName:string) => {
     const { setUrls, defScreenKey }:any = this.props;
-    const { urls }:any = this.state;
+    const { urls, names }:any = this.state;
     this.setState({
       defKey: key
     })
     if(defScreenKey==1){
-      let url = [];
+      let url = [],name = [];
       url.push(addRess);
-      setUrls(url);
-      // this.setState({
-      //   urls: url
-      // })
+      name.push(deviceName);
+      setUrls(url,name);
     }else if(defScreenKey==4){
       if(urls.length<4){
         urls.push(addRess);
-        setUrls(urls);
+        names.push(deviceName);
+        setUrls(urls,names);
+      }else{
+        const array1 = [addRess,...urls].slice(0,4);
+        const array2 = [deviceName,...names].slice(0,4);
+        setUrls(array1,array2);
       }
     }else if(defScreenKey==6){
       if(urls.length<6){
         urls.push(addRess);
-        setUrls(urls);
+        names.push(deviceName);
+        setUrls(urls,names);
+      }else{
+        const array3 = [addRess,...urls].slice(0,6);
+        const array4 = [deviceName,...names].slice(0,6);
+        setUrls(array3,array4);
       }
     }
   }
@@ -89,7 +98,7 @@ class VideoListComponent extends Component<Props> {
             data.map((item:any) => (
               <div className={styles.video}>
                 <div  className={defKey==item.monitoDevicerId?styles.bg:styles.bg1}>
-                <div className={styles.vid} style={{background:`url(${url.resolve(item.pic?item.pic:'','')})`,backgroundSize: 'cover'}} onClick={() => this.changeDefKey(item.monitoDevicerId,item.rtmpAddress)}>
+                <div className={styles.vid} style={{background:`url(${url.resolve(item.pic?item.pic:'','')})`,backgroundSize: 'cover'}} onClick={() => this.changeDefKey(item.monitoDevicerId,item.rtmpAddress,item.monitorDeviceName)}>
                   {item.monitorDeviceName}
                 </div>
                 </div>

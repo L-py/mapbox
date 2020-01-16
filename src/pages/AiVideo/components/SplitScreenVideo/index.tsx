@@ -6,6 +6,7 @@ import { url } from 'inspector';
 
 interface Props extends FormComponentProps{
   urls: [],
+  names: [],
   changeScreenKey: void,
   setUrls: void,
   defScreenKey: number,
@@ -23,12 +24,12 @@ class SplitScreenVideoComponent extends Component<Props> {
     const { changeScreenKey, setUrls }:any = this.props;
     console.log(key);
     changeScreenKey(key);
-    setUrls([]);
+    setUrls([],[]);
   }
 
   render() {
     const { defScreenKey } = this.props;
-    const { urls }:any = this.props;
+    const { urls, names }:any = this.props;
     console.log(urls);
     let option = {};
     let option0 = {}, option1 = {}, option2 = {}, option3 = {};

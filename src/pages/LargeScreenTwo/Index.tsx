@@ -8,6 +8,7 @@ import { FormComponentProps } from 'antd/es/form';
 import { AnyAction } from 'redux';
 import { connect } from 'dva';
 import { indexState } from './models/index';
+import cookie from 'react-cookies';
 
 
 interface Props extends FormComponentProps {
@@ -33,6 +34,7 @@ class LargeScreenPage extends Component<Props> {
     devType: '',
     devStatue: false,
     fatchParams: {},
+    operationType:'',
     dataTypeL: '0',
     dataTypeT: '0',
     dataTypeA: '0',
@@ -47,6 +49,11 @@ class LargeScreenPage extends Component<Props> {
     this.setState({
       devType: type,
       devStatue: status
+    })
+  }
+  changeOperationType = (type:string) => {
+    this.setState({
+      operationType: type
     })
   }
   changeDataType = (type:string,status:string) => {
@@ -135,22 +142,33 @@ class LargeScreenPage extends Component<Props> {
     document.getElementById('map').style.transformOrigin = 'left top';
     // document.getElementById('backgrond').style.transform = `scale(${scaX})`;
     // document.getElementById('backgrond').style.transformOrigin = 'left top';
+    if(window.location.href.indexOf('?')!=-1){
+      const token = window.location.href.split('?')[1].split('=')[1];
+      cookie.save('token', token, { path: '/' });
+    }
   }
+
+  componentWillUnmount(): void {
+    cookie.remove('token', { path: '/' })
+  }
+
   render() {
-    const { boundNe, boundSw, devType, devStatue } = this.state;
+    const { boundNe, boundSw, devType, devStatue, operationType } = this.state;
     const motheds = {
       changeBounds: this.changeBounds,
       changeParams: this.changeParams,
+      changeOperationType: this.changeOperationType,
     }
     const motheds1 = {
       changeDataType: this.changeDataType,
     }
     const motheds2 = {
       changeDevType: this.changeDevType,
+      changeOperationType: this.changeOperationType,
     }
     return (
       <div className={styles.container} id="main-container">
-        <MapPage {...motheds} devType={devType} devStatue={devStatue}/>
+        <MapPage {...motheds} devType={devType} operationType={operationType} devStatue={devStatue}/>
         <div id="backgrond" className={styles.backGrounds}></div>
         <LeftPanelPage {...motheds1}/>
         <RightPanelPage boundNe={boundNe} boundSw={boundSw} {...motheds2}/>

@@ -29,8 +29,13 @@ interface Props {
   fetchProjectInfo: void,
   changeBounds: void,
   changeParams: void,
+  changeOperationType: void,
   moDevPointData: {},
+  moDevPointData1: {},
+  moDevPointData2: {},
+  moDevPointData3: {},
   devType: string,
+  operationType: string,
   areaCode: string,
 }
 class BackgroundComponentMap extends Component<Props> {
@@ -39,6 +44,7 @@ class BackgroundComponentMap extends Component<Props> {
     level: 0,
     defProCode: '',
     defCityCode: '',
+    opeType: '',
   }
   mapbox:any;
   constructor(props: Props) {
@@ -65,48 +71,50 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   componentWillReceiveProps(nextProps:  any) {
-    const { moDevPointData,devType,devStatue,proPointData,areaCode }:any = nextProps;
-    const { level,defCityCode,defProCode } = this.state;
-    console.log(moDevPointData);
-    if(areaCode!=''){
-      // if(level == 1){
-        this.addPointLayer(this.mapbox,proPointData,areaCode);
-        this.addMakerLayer(this.mapbox,proPointData,areaCode);
-      // }
+    const { moDevPointData,devType,devStatue,proPointData,areaCode,operationType }:any = nextProps;
+    const { level,defCityCode,defProCode, opeType } = this.state;
+    console.log(operationType);
+    if(areaCode!=='' && operationType ==='1'){
       if(level == 2){
         this.setVisible(this.mapbox,'maine');
-        // this.setVisible(this.mapbox,`city_${defCityCode}`);
-        // this.setVisible(this.mapbox,`province_${defProCode}`);
-        // this.setState({
-        //   level:1
-        // })
       }
     }
-    if(devStatue){
+    if(operationType ==='2'){
       if(devType=='01'){
-          this.addVideoLayer(this.mapbox,moDevPointData);
+          // this.addVideoLayer(this.mapbox,moDevPointData);
+          this.setDevVisibil(this.mapbox,'videoPoint');
       }else if(devType=='02'){
-          this.addScenorLayer(this.mapbox,moDevPointData);
+          // this.addScenorLayer(this.mapbox,moDevPointData);
+          this.setDevVisibil(this.mapbox,'scenor');
       }else if(devType=='03'){
-          this.addPersonLayer(this.mapbox,moDevPointData);
+          // this.addPersonLayer(this.mapbox,moDevPointData);
+          this.setDevVisibil(this.mapbox,'person');
       }else if(devType=='04'){
-        this.addCarLayer(this.mapbox,moDevPointData);
+        // this.addCarLayer(this.mapbox,moDevPointData);
+        this.setDevVisibil(this.mapbox,'car');
       }else if(devType=='all'){
         // setTimeout(() => {
         //   this.addAllDevLayer(this.mapbox,moDevPointData);
         // },500)
       }
-    }else {
-      this.remveDevLayer(this.mapbox,moDevPointData,devType);
     }
+    
+    // else {
+    //   this.remveDevLayer(this.mapbox,moDevPointData,devType);
+    // }
   }
 
   bindMapboxInfo = (mapbox:any) => {
     mapbox.on('load', () => {
-      const { proPointAllData, changeBounds, changeParams }:any = this.props;
+      const { proPointAllData, changeBounds, changeParams, moDevPointData, moDevPointData1, moDevPointData2, moDevPointData3 }:any = this.props;
       this.addHeatLayer(mapbox,proPointAllData);
       this.addPointLayer(mapbox,proPointAllData,'');
       this.addMakerLayer(mapbox,proPointAllData,'');
+
+      this.addVideoLayer(this.mapbox,moDevPointData);
+      this.addScenorLayer(this.mapbox,moDevPointData1);
+      this.addPersonLayer(this.mapbox,moDevPointData2);
+      this.addCarLayer(this.mapbox,moDevPointData3);
       changeBounds(mapbox.getBounds()._ne,mapbox.getBounds()._sw);
       // this.addScenorLayer(mapbox);
       // this.addVideoLayer(mapbox);
@@ -137,6 +145,18 @@ class BackgroundComponentMap extends Component<Props> {
     });
   }
 
+  setDevVisibil = (mapbox:any,id:string) => {
+    var visibility = mapbox.getLayoutProperty(
+      id,
+      'visibility'
+    ) /* getLayoutProperty(layer, name) 返回指定style layer上名为name的layout属性的值*/
+    if (visibility != 'visible') {
+      mapbox.setLayoutProperty(id, 'visibility', 'visible')
+    }else{
+      mapbox.setLayoutProperty(id, 'visibility', 'none' );
+    } 
+  }
+
   addMainLayer = (mapbox:any) => {
     //添加全国省市县id数据
     const chinalayer = new ChinaLayer(mapbox, chainJson, 'maine', 'maineSource');
@@ -153,12 +173,16 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addProvinceLayer = (mapbox:any,info:any)=> {
-    const { fetchProjectInfo }:any = this.props;
+    const { fetchProjectInfo, changeOperationType }:any = this.props;
     const { defProCode,defCityCode } =this.state;
     console.log(info.features[0].properties);
     const code = info.features[0].properties.adcode;
     const level = info.features[0].properties.level;
     fetchProjectInfo(code,level);
+    changeOperationType('1');
+    this.setState({
+      opeType: '1'
+    })
     const c1= info.features[0].properties.center.replace('[','').split(',')[0];
     const c2= info.features[0].properties.center.replace(']','').split(',')[1];
     mapbox.setCenter([c1,c2]);
@@ -192,11 +216,15 @@ class BackgroundComponentMap extends Component<Props> {
 
   addCityLayer = (mapbox:any,info:any) => {
     console.log(info.features[0].properties);
-    const { fetchProjectInfo }:any = this.props;
+    const { fetchProjectInfo, changeOperationType }:any = this.props;
     const { defCityCode,defProCode } =this.state;
     const adcode = info.features[0].properties.adcode;
     const level = info.features[0].properties.level;
     fetchProjectInfo(adcode,level);
+    changeOperationType('1');
+    this.setState({
+      opeType: '1'
+    })
     const c1= info.features[0].properties.center.replace('[','').split(',')[0];
     const c2= info.features[0].properties.center.replace(']','').split(',')[1];
     mapbox.setCenter([c1,c2]);
@@ -256,22 +284,23 @@ class BackgroundComponentMap extends Component<Props> {
 
   addPointLayer = (mapbox:any,pointData:any,code:string) => {
     //项目点聚合
-    const pointlayer = new ClusterPointLayer(mapbox, pointData, `pointCluster_${code}`, true, `pointClusterSource_${code}` );
+    const pointlayer = new ClusterPointLayer(mapbox, pointData, `pointCluster`, true, `pointClusterSource` );
      pointlayer.addLayer();
   }
 
   addMakerLayer =(mapbox:any,pointAllData:any,code:string) => {
     //项目点
-    const markerlayer = new MarkerPointLayer(mapbox, pointAllData, `proMaker_${code}`, `proMakerSource_${code}`, 'maine');
+    const markerlayer = new MarkerPointLayer(mapbox, pointAllData, `proMaker`, `proMakerSource`, 'maine');
      markerlayer.addLayer();
      //项目点绑定事件
-    mapbox.on('mouseenter', `proMaker_${code}`, function() {
+    mapbox.on('mouseenter', `proMaker`, function() {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
-    mapbox.on('click', `proMaker_${code}`, function(e) {
+    mapbox.on('click', `proMaker`, function(e) {
+      console.log(e.features[0].geometry.coordinates);
       const proInfo = e.features[0].properties.proName;
       const infos = `<div style="height:80px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
-        <div style="width:150px;margin:10px 10px;text-align:center;">${proInfo}</div>
+        <div style="width:150px;margin:10px 10px;text-align:center;font-size:16px;">${proInfo}</div>
       </div>`;
       var coordinates = e.features[0].geometry.coordinates.slice();
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
@@ -298,17 +327,19 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addVideoLayer = (mapbox:any,data:any) => {
+    console.log(data);
     //摄像头点
-    const videolayer = new VideoPointLayer(mapbox, data, 'video', 'videoSource');
+    const videolayer = new VideoPointLayer(mapbox, data, `videoPoint`, 'videoSource');
     videolayer.addLayer();
      //摄像头绑定事件
-    mapbox.on('mouseenter', 'video', function() {
+    mapbox.on('mouseenter', `videoPoint`, function() {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
-    mapbox.on('click', 'video', function(e:any) {
+    mapbox.on('click', `videoPoint`, function(e) {
       console.log(e.features[0].geometry.coordinates);
+      const proInfo = e.features[0].properties.monitorDeviceName;
       const infos = `<div style="height:250px;width:340px;display:flex;flex-warp:warp;flex-direction:row;background:url(${require('../../images/videoInfo.png')}) no-repeat;background-size:340px 250px;">
-        <div style="width:150px;margin:5px 5px;text-align:center;">监控点名称</div>
+        <div style="width:150px;margin:5px 5px;text-align:center;">${proInfo}</div>
         <div style="width:320px;height:200px;margin-top:28px;margin-left:-150px;">
           <video style="width:100%;height:100%" id="videoElement"></video>
         </div>
@@ -318,7 +349,6 @@ class BackgroundComponentMap extends Component<Props> {
         .setLngLat(coordinates)
         .setHTML(infos)
         .addTo(mapbox);
-      return false;
       // e.addEventListener('click',(e) => {e.stopPropagation()}, false);
       // e.stopPropagation();
       // if(flvjs.isSupported()){
@@ -341,15 +371,15 @@ class BackgroundComponentMap extends Component<Props> {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
     mapbox.on('click', 'scenor', function(e) {
-      const proInfo = e.features[0].properties.proName;
-      const infos = `<div style="height:240px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
-        <div style="width:150px;margin:10px 10px;text-align:center;">${proInfo}</div>
+      const proInfo = e.features[0].properties.monitorDeviceName;
+      const infos = `<div style="height:80px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
+        <div style="width:150px;margin:10px 10px;text-align:center;font-size:16px;">${proInfo}</div>
       </div>`;
       var coordinates = e.features[0].geometry.coordinates.slice();
       while (Math.abs(e.lngLat.lng - coordinates[0]) > 180) {
         coordinates[0] += e.lngLat.lng > coordinates[0] ? 360 : -360;
       }
-      new mapboxgl.Popup({ offset: [120,220] ,closeButton:false,})
+      new mapboxgl.Popup({ offset:-55 ,closeButton:false,})
         .setLngLat(coordinates)
         .setHTML(infos)
         .addTo(mapbox);
@@ -373,7 +403,7 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addAllDevLayer = (mapbox:any,data:any) => {
-    // const data1 = JSON.parse(data);
+    // const data1 = JSON.parse(data);  
     let videoData = [], scenorData = [], personData = [], carData = [];
     if(data && data.features.length){
       for (let i =0;i<data.features.length;i++){
@@ -412,7 +442,7 @@ class BackgroundComponentMap extends Component<Props> {
 
   remveDevLayer = (mapbox:any,data:any,type:string) => {
     if(type=='01'){
-      const videolayer = new VideoPointLayer(mapbox, data, 'video', 'videoSource');
+      const videolayer = new VideoPointLayer(mapbox, data, `videoPoint`, 'videoSource');
       videolayer.removeLayer();
     }else if(type=='02'){
       const scenorlayer = new ScenorPointLayer(mapbox, data, 'scenor', 'videoSource');
@@ -424,7 +454,7 @@ class BackgroundComponentMap extends Component<Props> {
       const carlayer = new CarPointLayer(mapbox, data, 'car', 'carSource');
       carlayer.removeLayer();
     }else if(type == 'all'){
-      const videolayer = new VideoPointLayer(mapbox, data, 'video', 'videoSource');
+      const videolayer = new VideoPointLayer(mapbox, data, `videoPoint`, 'videoSource');
       videolayer.removeLayer();
       const scenorlayer = new ScenorPointLayer(mapbox, data, 'scenor', 'videoSource');
       scenorlayer.removeLayer();
@@ -444,3 +474,49 @@ class BackgroundComponentMap extends Component<Props> {
   }
 }
 export default BackgroundComponentMap;
+const aaaaData = {
+	"features": [{
+		"geometry": {
+			"coordinates": ["116.854781", "40.381304"],
+			"type": "Point"
+		},
+		"type": "Feature",
+		"properties": {
+			"monitoDevicerId": "8000000.0",
+			"monitorDeviceIdent": 1,
+			"monitorDeviceName": "网络高清球机P01106",
+			"monitorDeviceNum": null,
+			"monitorDeviceCategory": "01",
+			"manufactor": null,
+			"ip": null,
+			"runTime": null,
+			"runState": null,
+			"monitorType": null,
+			"deviceAddress": null,
+			"proUser": null,
+			"carType": null,
+			"lot": "116.854781",
+			"lat": "40.381304",
+			"followState": null,
+			"belongDeviceId": null,
+			"stationId": null,
+			"proId": null,
+			"name": null,
+			"value": null,
+			"vgisDeviceCollection": null,
+			"proName": null,
+			"monitorDeviceType": "0101",
+			"monitorTypeArr": null,
+			"pointPosition": null,
+			"addUserId": null,
+			"addUserDate": null,
+			"updateUserId": null,
+			"updateUserDate": null,
+			"c3LinkCodeNum": "52_#_51000005_1_101",
+			"c3LinkCodeId": null,
+			"c3MonAddress": null,
+			"c3mvideoCamera": null
+		}
+	}],
+	"type": "FeatureCollection"
+}

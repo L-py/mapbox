@@ -8,6 +8,7 @@ import { FormComponentProps } from 'antd/es/form';
 import { AnyAction } from 'redux';
 import { connect } from 'dva';
 import { AiIndexState } from './models/index';
+import cookie from 'react-cookies';
 
 
 interface Props extends FormComponentProps {
@@ -31,6 +32,7 @@ class AiVideoPage extends Component<Props> {
   state = {
     defScreenKey : 1,
     urls1: [],
+    devName: [],
   }
   componentWillMount(): void {
     const { dispatch } = this.props;
@@ -54,15 +56,24 @@ class AiVideoPage extends Component<Props> {
     const scale = window.innerWidth / 960;
     document.getElementById('main-container').style.transform = `scale(${scaleX},${scaleY})`;
     document.getElementById('root').style.overflow = 'hidden';
+
+    if(window.location.href.indexOf('?')!=-1){
+      const token = window.location.href.split('?')[1].split('=')[1];
+      cookie.save('token', token, { path: '/' });
+    }
   }
 
+  componentWillUnmount(): void {
+    cookie.remove('token', { path: '/' })
+  }
   componentWillReceiveProps(){
 
   }
 
-  setUrls = (urls:[]) => {
+  setUrls = (urls:[],names:[]) => {
     this.setState({
-      urls1: urls
+      urls1: urls,
+      devName: names,
     })
   }
 
@@ -75,7 +86,7 @@ class AiVideoPage extends Component<Props> {
   render() {
     const { aiIndex } = this.props
     const { playListData, alarmListData }:any = aiIndex; 
-    const { urls1, defScreenKey } = this.state;
+    const { urls1, defScreenKey, devName } = this.state;
     const motheds = {
       setUrls: this.setUrls,
     }
@@ -88,7 +99,7 @@ class AiVideoPage extends Component<Props> {
     return (
       <div className={styles.container} id="main-container">
           <div>
-              <SplitScreenVideoComponent urls={urls1} {...motheds1} defScreenKey={defScreenKey}/>
+              <SplitScreenVideoComponent urls={urls1} names={devName} {...motheds1} defScreenKey={defScreenKey}/>
           </div>
           <div>
               {playListData && playListData.length>0?
