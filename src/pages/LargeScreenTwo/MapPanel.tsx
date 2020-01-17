@@ -90,19 +90,29 @@ class MapPage extends Component<Props> {
     });
   }
 
+  fetchDevAttrInfo = (id:any) => {
+    const { dispatch }:any = this.props;
+    dispatch({
+      type: 'index/fetchAttr',
+      payload: {monDevIdent:id}
+    });
+  }
+
   render() {
     const { index, changeBounds, changeParams, changeOperationType, devType, devStatue, operationType } = this.props;
-    const { proPointAllData, proPointData, moDevPointData, moDevPointData1, moDevPointData2, moDevPointData3 } = index;
+    const { proPointAllData, proPointData, moDevPointData, moDevPointData1, moDevPointData2, moDevPointData3, devAttrData } = index;
     const { areaCode } = this.state;
     const motheds = {
         fetchProjectInfo: this.fetchProjectInfo,
+        fetchDevAttrInfo: this.fetchDevAttrInfo,
     }
+    console.log(devAttrData);
     return (
         <div>
           <BackgroundComponentMap {...motheds} proPointAllData={proPointAllData} proPointData={proPointData} areaCode={areaCode}
           moDevPointData={moDevPointData} moDevPointData1={moDevPointData1} moDevPointData2={moDevPointData2} moDevPointData3={moDevPointData3} 
           changeBounds={changeBounds} changeParams={changeParams} changeOperationType={changeOperationType} devType={devType} devStatue={devStatue}
-          operationType={operationType}/>
+          operationType={operationType} devAttrData={devAttrData}/>
         </div>
     );
   }

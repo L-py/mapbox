@@ -9,6 +9,7 @@ import { AnyAction } from 'redux';
 import { connect } from 'dva';
 import { indexState } from './models/index';
 import cookie from 'react-cookies';
+import {beFull} from 'be-full';
 
 
 interface Props extends FormComponentProps {
@@ -152,6 +153,10 @@ class LargeScreenPage extends Component<Props> {
     cookie.remove('token', { path: '/' })
   }
 
+  beFull = () => {
+    beFull(document.getElementById('main-container'));
+  }
+
   render() {
     const { boundNe, boundSw, devType, devStatue, operationType } = this.state;
     const motheds = {
@@ -172,6 +177,7 @@ class LargeScreenPage extends Component<Props> {
         <div id="backgrond" className={styles.backGrounds}></div>
         <LeftPanelPage {...motheds1}/>
         <RightPanelPage boundNe={boundNe} boundSw={boundSw} {...motheds2}/>
+        <div className={styles.btn} onClick={() => this.beFull()}>全屏</div>
       </div>
     );
   }

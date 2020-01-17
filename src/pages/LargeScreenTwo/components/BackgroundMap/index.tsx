@@ -27,6 +27,7 @@ interface Props {
   proPointData: {},
   proPointAllData: {},
   fetchProjectInfo: void,
+  fetchDevAttrInfo: void,
   changeBounds: void,
   changeParams: void,
   changeOperationType: void,
@@ -37,6 +38,7 @@ interface Props {
   devType: string,
   operationType: string,
   areaCode: string,
+  devAttrData: {},
 }
 class BackgroundComponentMap extends Component<Props> {
 
@@ -326,17 +328,26 @@ class BackgroundComponentMap extends Component<Props> {
     });
   }
 
+  getDevInfo = () => {
+    const { devAttrData }:any = this.props;
+    return devAttrData.monitorDeviceName;
+  }
+
   addVideoLayer = (mapbox:any,data:any) => {
     console.log(data);
     //摄像头点
     const videolayer = new VideoPointLayer(mapbox, data, `videoPoint`, 'videoSource');
+    const { fetchDevAttrInfo, devAttrData }:any = this.props;
     videolayer.addLayer();
      //摄像头绑定事件
     mapbox.on('mouseenter', `videoPoint`, function() {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
-    mapbox.on('click', `videoPoint`, function(e) {
+    mapbox.on('click', `videoPoint`, (e:any) => {
       console.log(e.features[0].geometry.coordinates);
+      console.log(e.features[0].properties.monitorDeviceIdent)
+        console.log(devAttrData)   
+      fetchDevAttrInfo(e.features[0].properties.monitorDeviceIdent);
       const proInfo = e.features[0].properties.monitorDeviceName;
       const infos = `<div style="height:250px;width:340px;display:flex;flex-warp:warp;flex-direction:row;background:url(${require('../../images/videoInfo.png')}) no-repeat;background-size:340px 250px;">
         <div style="width:150px;margin:5px 5px;text-align:center;">${proInfo}</div>

@@ -302,6 +302,7 @@ class SplitScreenVideoComponent extends Component<Props> {
             { urls.length>0?
               <VideoPlayer {...option} />
             :null}
+            <div className={styles.header1}>{names[0]}</div>
           </div>
           :defScreenKey===4?
           <div className={styles.video4}>
@@ -309,21 +310,25 @@ class SplitScreenVideoComponent extends Component<Props> {
               {urls.length>0?
                 <VideoPlayer {...option0} />
               :null}
+               <div className={styles.header2}>{names[0]}</div>
             </div>
             <div className={styles.v1}>
               {urls.length>1?
                 <VideoPlayer {...option1} />
               :null}
+               <div className={styles.header2}>{names[1]}</div>
             </div>
             <div className={styles.v1}>
               {urls.length>2?
                 <VideoPlayer {...option2} />
               :null}
+               <div className={styles.header2}>{names[2]}</div>
             </div>
             <div className={styles.v1}>
               {urls.length>3?
                 <VideoPlayer {...option3} />
               :null}
+               <div className={styles.header2}>{names[3]}</div>
             </div>
           </div>
           :defScreenKey===6?
@@ -332,31 +337,37 @@ class SplitScreenVideoComponent extends Component<Props> {
               {urls.length>0?
                 <VideoPlayer {...optionS0} />
               :null}
+              <div className={styles.header3}>{names[0]}</div>
             </div>
             <div className={styles.v2}>
               {urls.length>1?
                 <VideoPlayer {...optionS1} />
               :null}
+              <div className={styles.header4}>{names[1]}</div>
             </div>
             <div className={styles.v3}>
               {urls.length>3?
                 <VideoPlayer {...optionS3} />
               :null}
+              <div className={styles.header4}>{names[2]}</div>
             </div>
             <div className={styles.v4}>
               {urls.length>4?
                 <VideoPlayer {...optionS4} />
               :null}
+              <div className={styles.header4}>{names[3]}</div>
             </div>
             <div className={styles.v4}>
               {urls.length>5?
                 <VideoPlayer {...optionS5} />
               :null}
+              <div className={styles.header4}>{names[4]}</div>
             </div>
             <div className={styles.v5}>
               {urls.length>2?
                 <VideoPlayer {...optionS2} />
               :null}
+              <div className={styles.header4}>{names[5]}</div>
             </div>
           </div>
         :null}

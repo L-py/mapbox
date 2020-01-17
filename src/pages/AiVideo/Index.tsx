@@ -9,7 +9,7 @@ import { AnyAction } from 'redux';
 import { connect } from 'dva';
 import { AiIndexState } from './models/index';
 import cookie from 'react-cookies';
-
+import {beFull} from 'be-full';
 
 interface Props extends FormComponentProps {
   dispatch: (args: AnyAction) => void,
@@ -70,7 +70,7 @@ class AiVideoPage extends Component<Props> {
 
   }
 
-  setUrls = (urls:[],names:[]) => {
+  setUrls = (urls:any,names:any) => {
     this.setState({
       urls1: urls,
       devName: names,
@@ -81,6 +81,10 @@ class AiVideoPage extends Component<Props> {
     this.setState({
       defScreenKey: key
     })
+  }
+
+  beFull = () => {
+    beFull(document.getElementById('main-container'));
   }
 
   render() {
@@ -107,6 +111,7 @@ class AiVideoPage extends Component<Props> {
               :null}
           </div>
           <AlarmPanelPage/>
+          <div className={styles.btn} onClick={() => this.beFull()}>全屏</div>
       </div>
     );
   }

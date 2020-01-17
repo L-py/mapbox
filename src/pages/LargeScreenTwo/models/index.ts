@@ -1,6 +1,7 @@
 import { EffectsCommandMap, Model } from 'dva';
 import { queryAlarmConfirmStatis,queryAlarmLevelStatis,queryAlarmTotalStatis,queryAlarmRegionStatis,
-  queryMonitorDevStatis,queryProTypeStatis,queryProSum,queryTotalStatis,queryMonitorDevNumber,queryProPointData,queryMondevicePointData,queryAttr } from '../services/index';
+  queryMonitorDevStatis,queryProTypeStatis,queryProSum,queryTotalStatis,queryMonitorDevNumber,
+  queryProPointData,queryMondevicePointData,queryDeviceAttr } from '../services/index';
 
 export interface indexState {
   conData: [],
@@ -18,7 +19,7 @@ export interface indexState {
   moDevPointData1: {},
   moDevPointData2: {},
   moDevPointData3: {},
-  attData: {},
+  devAttrData: {},
 }
 
 const index: Model = {
@@ -40,7 +41,7 @@ const index: Model = {
       moDevPointData1: {},
       moDevPointData2: {},
       moDevPointData3: {},
-      attData: {},
+      devAttrData: {},
     },
   
     effects: {
@@ -210,7 +211,7 @@ const index: Model = {
       },
       * fetchAttr({ payload }, { call, put }: EffectsCommandMap) {
         try{
-          const response = yield call(queryAttr, payload);
+          const response = yield call(queryDeviceAttr, payload);
           yield put({
             type: 'initAttr',
             payload: response,
@@ -315,7 +316,7 @@ const index: Model = {
         initAttr(state, { payload }: any): [] {
           return {
               ...state,
-              attData: payload,
+              devAttrData: payload,
           };
         },
     },
