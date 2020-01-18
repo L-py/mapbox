@@ -21,10 +21,15 @@ class HeaderComponent extends Component {
     clearInterval(this.timeInterval);
   }
 
+  beFull = () => {
+    window.open(window.location.href)
+    // beFull(document.getElementById('main-container'));
+  }
   render() {
     const { currentTime } = this.state;
     return (
       <div className={styles.container}>
+        <div className={styles.btn} onClick={() => this.beFull()}></div>
         <div className={styles.header}>
           <div className={styles.times}>{currentTime}</div>
           <div className={styles.search}>

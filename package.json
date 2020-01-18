@@ -55,7 +55,7 @@
     "@ant-design/pro-layout": "^4.8.3",
     "@antv/data-set": "^0.10.2",
     "antd": "^3.23.6",
-    "be-full": "^0.0.3",
+    "be-full": "0.0.3",
     "classnames": "^2.2.6",
     "dva": "^2.4.1",
     "echarts": "^4.5.0",

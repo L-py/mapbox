@@ -2,6 +2,15 @@
   width: 1920px;
   height: 98px;
   z-index: 10;
+  position: relative;
+  .btn{
+    position: absolute;
+    width: calc(50%);
+    height: 100px;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
+  }
   .header {
     display: flex;
     flex-direction: row;

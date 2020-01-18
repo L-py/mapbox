@@ -84,7 +84,8 @@ class AiVideoPage extends Component<Props> {
   }
 
   beFull = () => {
-    beFull(document.getElementById('main-container'));
+    window.open(window.location.href)
+    // beFull(document.getElementById('main-container'));
   }
 
   render() {
@@ -111,7 +112,7 @@ class AiVideoPage extends Component<Props> {
               :null}
           </div>
           <AlarmPanelPage/>
-          <div className={styles.btn} onClick={() => this.beFull()}>全屏</div>
+          {/* <div className={styles.btn} onClick={() => this.beFull()}>全屏</div> */}
       </div>
     );
   }

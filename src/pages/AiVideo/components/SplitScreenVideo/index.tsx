@@ -26,7 +26,10 @@ class SplitScreenVideoComponent extends Component<Props> {
     changeScreenKey(key);
     setUrls([],[]);
   }
-
+  beFull = () => {
+    window.open(window.location.href)
+    // beFull(document.getElementById('main-container'));
+  }
   render() {
     const { defScreenKey } = this.props;
     const { urls, names }:any = this.props;
@@ -286,7 +289,7 @@ class SplitScreenVideoComponent extends Component<Props> {
     console.log(option);
     return (
       <div className={styles.container}>
-        <div className={styles.header}>
+        <div className={styles.header} onClick={() => this.beFull()}>
           <div className={styles.headerInfo}>
             摄像头周界布控视频
           </div>

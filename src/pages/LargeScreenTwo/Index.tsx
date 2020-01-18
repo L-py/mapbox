@@ -154,7 +154,8 @@ class LargeScreenPage extends Component<Props> {
   }
 
   beFull = () => {
-    beFull(document.getElementById('main-container'));
+    window.open(window.location.href)
+    // beFull(document.getElementById('main-container'));
   }
 
   render() {
@@ -177,7 +178,7 @@ class LargeScreenPage extends Component<Props> {
         <div id="backgrond" className={styles.backGrounds}></div>
         <LeftPanelPage {...motheds1}/>
         <RightPanelPage boundNe={boundNe} boundSw={boundSw} {...motheds2}/>
-        <div className={styles.btn} onClick={() => this.beFull()}>全屏</div>
+        {/* <div className={styles.btn} onClick={() => this.beFull()}>全屏</div> */}
       </div>
     );
   }
