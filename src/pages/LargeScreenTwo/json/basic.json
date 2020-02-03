@@ -163,7 +163,7 @@
                             0.2
                         ],
                         [
-                            8,
+                            18,
                             0.5
                         ]
                     ]
@@ -207,7 +207,7 @@
                             0
                         ],
                         [
-                            9,
+                            19,
                             0.75
                         ]
                     ]
@@ -283,7 +283,7 @@
                             0
                         ],
                         [
-                            15,
+                            19,
                             1
                         ]
                     ]
@@ -297,6 +297,7 @@
             "source": "openmaptiles",
             "source-layer": "housenumber",
             "minzoom": 17,
+            "maxzoom": 19,
             "filter": [
                 "==",
                 "$type",
@@ -548,6 +549,7 @@
             "source": "openmaptiles",
             "source-layer": "aeroway",
             "minzoom": 14,
+            "maxzoom": 19,
             "filter": [
                 "all",
                 [
@@ -593,6 +595,7 @@
             "source": "openmaptiles",
             "source-layer": "aeroway",
             "minzoom": 4,
+            "maxzoom": 19,
             "filter": [
                 "all",
                 [
@@ -1015,6 +1018,7 @@
             "source": "openmaptiles",
             "source-layer": "poi",
             "minzoom": 5,
+            "maxzoom": 19,
             "filter": [
                 "all",
                 [
@@ -1060,6 +1064,7 @@
             "source": "openmaptiles",
             "source-layer": "poi",
             "minzoom": 5,
+            "maxzoom": 19,
             "filter": [
                 "all",
                 [
@@ -1197,6 +1202,7 @@
             "source": "openmaptiles",
             "source-layer": "place",
             "minzoom": 8,
+            "maxzoom": 19,
             "filter": [
                 "all",
                 [
@@ -1227,7 +1233,7 @@
                             10
                         ],
                         [
-                            12,
+                            16,
                             14
                         ]
                     ]
@@ -1245,6 +1251,7 @@
             "source": "openmaptiles",
             "source-layer": "place",
             "minzoom": 8,
+            "maxzoom": 19,
             "filter": [
                 "all",
                 [
@@ -1275,7 +1282,7 @@
                             10
                         ],
                         [
-                            12,
+                            16,
                             14
                         ]
                     ]
@@ -1292,7 +1299,7 @@
             "type": "symbol",
             "source": "openmaptiles",
             "source-layer": "place",
-            "maxzoom": 16,
+            "maxzoom": 19,
             "filter": [
                 "all",
                 [
@@ -1339,7 +1346,7 @@
             "source": "openmaptiles",
             "source-layer": "place",
             "minzoom": 6,
-            "maxzoom": 12,
+            "maxzoom": 16,
             "filter": [
               "all",
               ["==", "class", "city"]
