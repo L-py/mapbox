@@ -31,7 +31,9 @@ const errorHandler = (error: { response: Response }): Response => {
   if (response && response.status) {
     const errorText = codeMessage[response.status] || response.statusText;
     const { status, url } = response;
-
+    if(status === 403){
+      window.top.postMessage({errorSite:"largeScreen",errorCode:"403"});
+    }
     notification.error({
       message: `请求错误 ${status}: ${url}`,
       description: errorText,
