@@ -7,6 +7,8 @@ const url = require('url');
 
 interface Props extends FormComponentProps {
   alarmListData:{},
+  ids: [],
+  fetchAlarmList: void,
 }
 
 const ViewImageForm = Form.create()((props: any) => {
@@ -46,6 +48,11 @@ class AlarmListComponent extends Component<Props> {
     });
   };
 
+  changeVideo (type:string) {
+    const { fetchAlarmList }:any = this.props;
+    fetchAlarmList(type);
+  }
+
   render() {
     const { alarmListData }:any = this.props;
     const { viewImageVisible, imgUrl }: any = this.state;
@@ -60,9 +67,9 @@ class AlarmListComponent extends Component<Props> {
             </div>
         </div>
         <div className={styles.control}>
-            <a>当前</a>
+            <a onClick={() => this.changeVideo('now')}>当前</a>
             <Divider type="vertical" />
-            <a>全部</a>
+            <a onClick={() => this.changeVideo('all')}>全部</a>
         </div>
         {
           alarmListData && alarmListData.rows.length>0?

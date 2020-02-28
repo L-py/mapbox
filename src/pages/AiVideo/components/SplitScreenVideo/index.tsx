@@ -22,9 +22,8 @@ class SplitScreenVideoComponent extends Component<Props> {
 
   changeDefKey = (key: number) => {
     const { changeScreenKey, setUrls }:any = this.props;
-    console.log(key);
     changeScreenKey(key);
-    setUrls([],[]);
+    setUrls([], [], []);
   }
   beFull = () => {
     window.open(window.location.href)
@@ -352,25 +351,25 @@ class SplitScreenVideoComponent extends Component<Props> {
               {urls.length>3?
                 <VideoPlayer {...optionS3} />
               :null}
-              <div className={styles.header4}>{names[2]}</div>
+              <div className={styles.header4}>{names[3]}</div>
             </div>
             <div className={styles.v4}>
               {urls.length>4?
                 <VideoPlayer {...optionS4} />
               :null}
-              <div className={styles.header4}>{names[3]}</div>
+              <div className={styles.header4}>{names[4]}</div>
             </div>
             <div className={styles.v4}>
               {urls.length>5?
                 <VideoPlayer {...optionS5} />
               :null}
-              <div className={styles.header4}>{names[4]}</div>
+              <div className={styles.header4}>{names[5]}</div>
             </div>
             <div className={styles.v5}>
               {urls.length>2?
                 <VideoPlayer {...optionS2} />
               :null}
-              <div className={styles.header4}>{names[5]}</div>
+              <div className={styles.header4}>{names[2]}</div>
             </div>
           </div>
         :null}

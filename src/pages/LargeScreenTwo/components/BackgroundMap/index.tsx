@@ -54,8 +54,6 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   componentDidMount(): void {
-    // mapboxgl.accessToken =
-    //   'pk.eyJ1IjoibHB5MjIyNjY2IiwiYSI6ImNrMzZxNnUzMjA0MmMzb21wMTMycGlwdDEifQ.gJ4NtkLjt4fmvFky4uJDLA';
     this.mapbox = new mapboxgl.Map({
       style: styleJson,
       center: [100.03,39.27], //地图中心经纬度
@@ -73,37 +71,27 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   componentWillReceiveProps(nextProps:  any) {
-    const { moDevPointData,devType,devStatue,proPointData,areaCode,operationType }:any = nextProps;
+    const { moDevPointData,devType,devStatue,proPointData,areaCode,operationType,changeOperationType }:any = nextProps;
     const { level,defCityCode,defProCode, opeType } = this.state;
-    console.log(operationType);
     if(areaCode!=='' && operationType ==='1'){
       if(level == 2){
         this.setVisible(this.mapbox,'maine');
       }
+      changeOperationType('-1')
     }
     if(operationType ==='2'){
       if(devType=='01'){
-          // this.addVideoLayer(this.mapbox,moDevPointData);
           this.setDevVisibil(this.mapbox,'videoPoint');
       }else if(devType=='02'){
-          // this.addScenorLayer(this.mapbox,moDevPointData);
           this.setDevVisibil(this.mapbox,'scenor');
       }else if(devType=='03'){
-          // this.addPersonLayer(this.mapbox,moDevPointData);
           this.setDevVisibil(this.mapbox,'person');
       }else if(devType=='04'){
-        // this.addCarLayer(this.mapbox,moDevPointData);
         this.setDevVisibil(this.mapbox,'car');
       }else if(devType=='all'){
-        // setTimeout(() => {
-        //   this.addAllDevLayer(this.mapbox,moDevPointData);
-        // },500)
       }
+      changeOperationType('-1')
     }
-    
-    // else {
-    //   this.remveDevLayer(this.mapbox,moDevPointData,devType);
-    // }
   }
 
   bindMapboxInfo = (mapbox:any) => {
@@ -118,18 +106,8 @@ class BackgroundComponentMap extends Component<Props> {
       this.addPersonLayer(this.mapbox,moDevPointData2);
       this.addCarLayer(this.mapbox,moDevPointData3);
       changeBounds(mapbox.getBounds()._ne,mapbox.getBounds()._sw);
-      // this.addScenorLayer(mapbox);
-      // this.addVideoLayer(mapbox);
       this.addMainLayer(mapbox);
-      // console.log( mapbox.querySourceFeatures("openmaptiles", {
-      //   sourceLayer: 'place',
-      // }))
-      mapbox.on('click', (e) => {
-        // console.log( mapbox.getBounds());
-        // console.log(e)
-      })
       mapbox.on('moveend', () => {
-        console.log(mapbox.getZoom())
         if(mapbox.getZoom()<8.5){
           var visibility = mapbox.getLayoutProperty(
             'maine',
@@ -175,13 +153,11 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addProvinceLayer = (mapbox:any,info:any)=> {
-    const { fetchProjectInfo, changeOperationType }:any = this.props;
+    const { fetchProjectInfo }:any = this.props;
     const { defProCode,defCityCode } =this.state;
-    console.log(info.features[0].properties);
     const code = info.features[0].properties.adcode;
     const level = info.features[0].properties.level;
     fetchProjectInfo(code,level);
-    changeOperationType('1');
     this.setState({
       opeType: '1'
     })
@@ -217,13 +193,11 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addCityLayer = (mapbox:any,info:any) => {
-    console.log(info.features[0].properties);
-    const { fetchProjectInfo, changeOperationType }:any = this.props;
+    const { fetchProjectInfo }:any = this.props;
     const { defCityCode,defProCode } =this.state;
     const adcode = info.features[0].properties.adcode;
     const level = info.features[0].properties.level;
     fetchProjectInfo(adcode,level);
-    changeOperationType('1');
     this.setState({
       opeType: '1'
     })
@@ -243,13 +217,6 @@ class BackgroundComponentMap extends Component<Props> {
         defCityCode: adcode
       })
     }
-   
-    // mapbox.on('mouseenter', `city_${adcode}`, (e) =>  {
-    //   mapbox.getCanvas().style.cursor = 'pointer';
-    // });
-    // mapbox.on('click', `city_${adcode}`, (e) => {
-    //   // this.addAreaLayer(mapbox,e);
-    // })
   }
 
   addAreaLayer = (mapbox:any,info:any) => {
@@ -273,9 +240,6 @@ class BackgroundComponentMap extends Component<Props> {
         'none'
       ) /* setLayoutProperty(layer, name, value)设置指定layer上名为name的layou属性的值 */
     } 
-    // mapbox.off('click', layer ,() => {
-    //   console.log('off')
-    // })
   }
 
   addHeatLayer =(mapbox:any,data:any) => {
@@ -299,7 +263,6 @@ class BackgroundComponentMap extends Component<Props> {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
     mapbox.on('click', `proMaker`, function(e) {
-      console.log(e.features[0].geometry.coordinates);
       const proInfo = e.features[0].properties.proName;
       const infos = `<div style="height:80px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
         <div style="width:150px;margin:10px 10px;text-align:center;font-size:16px;">${proInfo}</div>
@@ -312,19 +275,6 @@ class BackgroundComponentMap extends Component<Props> {
         .setLngLat(coordinates)
         .setHTML(infos)
         .addTo(mapbox);
-      // var visibility = mapbox.getLayoutProperty(
-      //   'maine',
-      //   'visibility'
-      // ) /* getLayoutProperty(layer, name) 返回指定style layer上名为name的layout属性的值*/
-      // if (visibility === 'visible') {
-      //   mapbox.setLayoutProperty(
-      //     'maine',
-      //     'visibility',
-      //     'none'
-      //   ) /* setLayoutProperty(layer, name, value)设置指定layer上名为name的layou属性的值 */
-      // } else {
-      //   mapbox.setLayoutProperty('maine', 'visibility', 'visible')
-      // }
     });
   }
 
@@ -334,7 +284,6 @@ class BackgroundComponentMap extends Component<Props> {
   }
 
   addVideoLayer = (mapbox:any,data:any) => {
-    console.log(data);
     //摄像头点
     const videolayer = new VideoPointLayer(mapbox, data, `videoPoint`, 'videoSource');
     const { fetchDevAttrInfo, devAttrData }:any = this.props;
@@ -343,22 +292,21 @@ class BackgroundComponentMap extends Component<Props> {
     mapbox.on('mouseenter', `videoPoint`, function() {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
-    mapbox.on('click', `videoPoint`, (e:any) => {
-      console.log(e.features[0].geometry.coordinates);
-      console.log(e.features[0].properties.monitorDeviceIdent)
-        console.log(devAttrData)   
+    console.log(devAttrData);
+    mapbox.on('click', `videoPoint`, (e:any) =>{
       fetchDevAttrInfo(e.features[0].properties.monitorDeviceIdent);
+      console.log(this.props);
       const proInfo = e.features[0].properties.monitorDeviceName;
-      const infos = `<div style="height:250px;width:340px;display:flex;flex-warp:warp;flex-direction:row;background:url(${require('../../images/videoInfo.png')}) no-repeat;background-size:340px 250px;">
+      const videoInfo = `<div style="height:250px;width:340px;display:flex;flex-warp:warp;flex-direction:row;background:url(${require('../../images/videoInfo.png')}) no-repeat;background-size:340px 250px;">
         <div style="width:150px;margin:5px 5px;text-align:center;">${proInfo}</div>
-        <div style="width:320px;height:200px;margin-top:28px;margin-left:-150px;">
+        <div style="width:320px;height:200px;margin -top:28px;margin-left:-150px;">
           <video style="width:100%;height:100%" id="videoElement"></video>
         </div>
       </div>`;
       var coordinates = e.features[0].geometry.coordinates.slice();
       new mapboxgl.Popup({ offset: [50,-40] ,closeButton:false,})
         .setLngLat(coordinates)
-        .setHTML(infos)
+        .setHTML(videoInfo)
         .addTo(mapbox);
       // e.addEventListener('click',(e) => {e.stopPropagation()}, false);
       // e.stopPropagation();
@@ -376,14 +324,16 @@ class BackgroundComponentMap extends Component<Props> {
   }
   //传感器
   addScenorLayer = (mapbox:any,data:any) => {
-    const scenorlayer = new ScenorPointLayer(mapbox, data, 'scenor', 'videoSource');
+    const scenorlayer = new ScenorPointLayer(mapbox, data, 'scenor', 'scenorSource');
     scenorlayer.addLayer();
+    const { fetchDevAttrInfo, devAttrData }:any = this.props;
     mapbox.on('mouseenter', 'scenor', function() {
       mapbox.getCanvas().style.cursor = 'pointer';
     });
     mapbox.on('click', 'scenor', function(e) {
+      fetchDevAttrInfo(e.features[0].properties.monitorDeviceIdent);
       const proInfo = e.features[0].properties.monitorDeviceName;
-      const infos = `<div style="height:80px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
+      const scenorInfo = `<div style="height:80px;width:170px;display:flex;background:rgb(9, 16, 22, 0.5);">
         <div style="width:150px;margin:10px 10px;text-align:center;font-size:16px;">${proInfo}</div>
       </div>`;
       var coordinates = e.features[0].geometry.coordinates.slice();
@@ -392,7 +342,7 @@ class BackgroundComponentMap extends Component<Props> {
       }
       new mapboxgl.Popup({ offset:-55 ,closeButton:false,})
         .setLngLat(coordinates)
-        .setHTML(infos)
+        .setHTML(scenorInfo)
         .addTo(mapbox);
     });
   }
@@ -402,7 +352,7 @@ class BackgroundComponentMap extends Component<Props> {
     carlayer.addLayer();
     mapbox.on('mouseenter', 'car', function() {
       mapbox.getCanvas().style.cursor = 'pointer';
-    });
+    }); 
   }
   //人
   addPersonLayer = (mapbox:any,data:any) => {
@@ -485,49 +435,3 @@ class BackgroundComponentMap extends Component<Props> {
   }
 }
 export default BackgroundComponentMap;
-const aaaaData = {
-	"features": [{
-		"geometry": {
-			"coordinates": ["116.854781", "40.381304"],
-			"type": "Point"
-		},
-		"type": "Feature",
-		"properties": {
-			"monitoDevicerId": "8000000.0",
-			"monitorDeviceIdent": 1,
-			"monitorDeviceName": "网络高清球机P01106",
-			"monitorDeviceNum": null,
-			"monitorDeviceCategory": "01",
-			"manufactor": null,
-			"ip": null,
-			"runTime": null,
-			"runState": null,
-			"monitorType": null,
-			"deviceAddress": null,
-			"proUser": null,
-			"carType": null,
-			"lot": "116.854781",
-			"lat": "40.381304",
-			"followState": null,
-			"belongDeviceId": null,
-			"stationId": null,
-			"proId": null,
-			"name": null,
-			"value": null,
-			"vgisDeviceCollection": null,
-			"proName": null,
-			"monitorDeviceType": "0101",
-			"monitorTypeArr": null,
-			"pointPosition": null,
-			"addUserId": null,
-			"addUserDate": null,
-			"updateUserId": null,
-			"updateUserDate": null,
-			"c3LinkCodeNum": "52_#_51000005_1_101",
-			"c3LinkCodeId": null,
-			"c3MonAddress": null,
-			"c3mvideoCamera": null
-		}
-	}],
-	"type": "FeatureCollection"
-}

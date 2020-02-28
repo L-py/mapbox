@@ -1,5 +1,5 @@
 import { EffectsCommandMap, Model } from 'dva';
-import { queryAlarmList } from '../services/alarm';
+import { queryAlarmList,queryAlarmListById } from '../services/alarm';
 
 export interface AlarmState {
   alarmListData: {},
@@ -16,6 +16,17 @@ const alarm: Model = {
       * initAlarmList({ payload }, { call, put }: EffectsCommandMap) {
         try{
           const response = yield call(queryAlarmList, payload);
+          yield put({
+            type: 'initAlarmListData',
+            payload: response,
+          });
+        }catch(e){
+          console.log(e)
+        }
+      },
+      * fetchAlarmList({ payload }, { call, put }: EffectsCommandMap) {
+        try{
+          const response = yield call(queryAlarmListById, payload);
           yield put({
             type: 'initAlarmListData',
             payload: response,

@@ -31,8 +31,11 @@ interface Props extends FormComponentProps {
 class AiVideoPage extends Component<Props> {
   state = {
     defScreenKey : 1,
+    ids:[],
+    urls:[],
+    names:[],
     urls1: [],
-    devName: [],
+    names1: [],
   }
   componentWillMount(): void {
     const { dispatch } = this.props;
@@ -70,10 +73,13 @@ class AiVideoPage extends Component<Props> {
 
   }
 
-  setUrls = (urls:any,names:any) => {
+  setUrls = (ids:any,urls:any,names:any) => {
     this.setState({
+      ids: ids,
+      urls: urls,
       urls1: urls,
-      devName: names,
+      names: names,
+      names1: names,
     })
   }
 
@@ -91,7 +97,7 @@ class AiVideoPage extends Component<Props> {
   render() {
     const { aiIndex } = this.props
     const { playListData, alarmListData }:any = aiIndex; 
-    const { urls1, defScreenKey, devName } = this.state;
+    const { urls1, defScreenKey, names1, ids, urls, names } = this.state;
     const motheds = {
       setUrls: this.setUrls,
     }
@@ -104,14 +110,14 @@ class AiVideoPage extends Component<Props> {
     return (
       <div className={styles.container} id="main-container">
           <div>
-              <SplitScreenVideoComponent urls={urls1} names={devName} {...motheds1} defScreenKey={defScreenKey}/>
+              <SplitScreenVideoComponent urls={urls1} names={names1} {...motheds1} defScreenKey={defScreenKey}/>
           </div>
           <div>
               {playListData && playListData.length>0?
-                <VideoListComponent playListData={playListData} total={playListData.length} current={1} pageSize={5}  {...motheds} defScreenKey={defScreenKey}/>
+                <VideoListComponent playListData={playListData} total={playListData.length} current={1} pageSize={5}  {...motheds} defScreenKey={defScreenKey} ids={ids} urls={urls} names={names}/>
               :null}
           </div>
-          <AlarmPanelPage/>
+          <AlarmPanelPage ids={ids}/>
           {/* <div className={styles.btn} onClick={() => this.beFull()}>全屏</div> */}
       </div>
     );

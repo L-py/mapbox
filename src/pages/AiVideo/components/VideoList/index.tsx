@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import styles from './index.less';
+import { message } from 'antd';
 import { FormComponentProps } from 'antd/es/form';
 const url = require('url');
 
@@ -10,6 +11,9 @@ interface Props extends FormComponentProps{
   pageSize: number;
   setUrls: void;
   defScreenKey: any;
+  ids : [];
+  urls: [];
+  names: [];
 }
 
 class VideoListComponent extends Component<Props> {
@@ -18,8 +22,7 @@ class VideoListComponent extends Component<Props> {
     total: this.props.total,
     current: this.props.current,
     pageSize: this.props.pageSize,
-    urls: [],
-    names: [],
+    
   }
 
   componentDidMount(): void {
@@ -47,35 +50,29 @@ class VideoListComponent extends Component<Props> {
   }
 
   changeDefKey = (key:any,addRess:string,deviceName:string) => {
-    const { setUrls, defScreenKey }:any = this.props;
-    const { urls, names }:any = this.state;
+    const { setUrls, defScreenKey, ids, urls, names }:any = this.props;
+    // const { ids, urls, names }:any = this.state;
     this.setState({
       defKey: key
     })
     if(defScreenKey==1){
-      let url = [],name = [];
-      url.push(addRess);
-      name.push(deviceName);
-      setUrls(url,name);
+      ids.indexOf(key) === -1 ? ids.push(key) && urls.push(addRess) && names.push(deviceName) : message.warning('此设备已选，请选择其他设备查看监控！');
+      setUrls(ids.slice(-1),urls.slice(-1),names.slice(-1));
     }else if(defScreenKey==4){
       if(urls.length<4){
-        urls.push(addRess);
-        names.push(deviceName);
-        setUrls(urls,names);
+        ids.indexOf(key) === -1 ? ids.push(key) && urls.push(addRess) && names.push(deviceName) : message.warning('此设备已选，请选择其他设备查看监控！');
+        setUrls(ids,urls,names);
       }else{
-        const array1 = [addRess,...urls].slice(0,4);
-        const array2 = [deviceName,...names].slice(0,4);
-        setUrls(array1,array2);
+        ids.indexOf(key) === -1 ? ids.push(key) && urls.push(addRess) && names.push(deviceName) : message.warning('此设备已选，请选择其他设备查看监控！');
+        setUrls(ids.slice(-4),urls.slice(-4),names.slice(-4));
       }
     }else if(defScreenKey==6){
       if(urls.length<6){
-        urls.push(addRess);
-        names.push(deviceName);
-        setUrls(urls,names);
+        ids.indexOf(key) === -1 ? ids.push(key) && urls.push(addRess) && names.push(deviceName) : message.warning('此设备已选，请选择其他设备查看监控！');
+        setUrls(ids,urls,names);
       }else{
-        const array3 = [addRess,...urls].slice(0,6);
-        const array4 = [deviceName,...names].slice(0,6);
-        setUrls(array3,array4);
+        ids.indexOf(key) === -1 ? ids.push(key) && urls.push(addRess) && names.push(deviceName) : message.warning('此设备已选，请选择其他设备查看监控！');
+        setUrls(ids.slice(-6),urls.slice(-6),names.slice(-6));
       }
     }
   }
