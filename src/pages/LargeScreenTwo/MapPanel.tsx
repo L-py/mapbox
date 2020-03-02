@@ -100,19 +100,25 @@ class MapPage extends Component<Props> {
 
   render() {
     const { index, changeBounds, changeParams, changeOperationType, devType, devStatue, operationType } = this.props;
-    const { proPointAllData, proPointData, moDevPointData, moDevPointData1, moDevPointData2, moDevPointData3, devAttrData } = index;
+    const { proPointAllData, proPointData, moDevPointData, moDevPointData1, moDevPointData2, moDevPointData3, devAttrData }:any = index;
     const { areaCode } = this.state;
     const motheds = {
         fetchProjectInfo: this.fetchProjectInfo,
         fetchDevAttrInfo: this.fetchDevAttrInfo,
     }
     console.log(devAttrData);
+    const videoInfos = `<div style="height:250px;width:340px;display:flex;flex-warp:warp;flex-direction:row;background:url(${require('./images/videoInfo.png')}) no-repeat;background-size:340px 250px;">
+      <div style="width:150px;margin:5px 5px;text-align:center;">${devAttrData && devAttrData.monitorDeviceName?devAttrData.monitorDeviceName:''}</div>
+      <div style="width:320px;height:200px;margin -top:28px;margin-left:-150px;">
+        <video style="width:100%;height:100%" id="videoElement"></video>
+      </div>
+    </div>`;
     return (
         <div>
           <BackgroundComponentMap {...motheds} proPointAllData={proPointAllData} proPointData={proPointData} areaCode={areaCode}
           moDevPointData={moDevPointData} moDevPointData1={moDevPointData1} moDevPointData2={moDevPointData2} moDevPointData3={moDevPointData3} 
           changeBounds={changeBounds} changeParams={changeParams} changeOperationType={changeOperationType} devType={devType} devStatue={devStatue}
-          operationType={operationType} devAttrData={devAttrData}/>
+          operationType={operationType} devAttrData={devAttrData} infos={videoInfos}/>
         </div>
     );
   }

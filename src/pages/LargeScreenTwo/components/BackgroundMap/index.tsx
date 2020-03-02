@@ -39,6 +39,7 @@ interface Props {
   operationType: string,
   areaCode: string,
   devAttrData: {},
+  infos: string,
 }
 class BackgroundComponentMap extends Component<Props> {
 
@@ -285,6 +286,7 @@ class BackgroundComponentMap extends Component<Props> {
 
   addVideoLayer = (mapbox:any,data:any) => {
     //摄像头点
+    console.log(data);
     const videolayer = new VideoPointLayer(mapbox, data, `videoPoint`, 'videoSource');
     const { fetchDevAttrInfo, devAttrData }:any = this.props;
     videolayer.addLayer();
@@ -306,7 +308,7 @@ class BackgroundComponentMap extends Component<Props> {
       var coordinates = e.features[0].geometry.coordinates.slice();
       new mapboxgl.Popup({ offset: [50,-40] ,closeButton:false,})
         .setLngLat(coordinates)
-        .setHTML(videoInfo)
+        .setHTML(this.props.infos)
         .addTo(mapbox);
       // e.addEventListener('click',(e) => {e.stopPropagation()}, false);
       // e.stopPropagation();
@@ -324,6 +326,7 @@ class BackgroundComponentMap extends Component<Props> {
   }
   //传感器
   addScenorLayer = (mapbox:any,data:any) => {
+    console.log(data);
     const scenorlayer = new ScenorPointLayer(mapbox, data, 'scenor', 'scenorSource');
     scenorlayer.addLayer();
     const { fetchDevAttrInfo, devAttrData }:any = this.props;
